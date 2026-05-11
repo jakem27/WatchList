@@ -9,4 +9,3 @@ create table user(
 	favorite_movie text null,
 	favorite_actor text null
 );
-
