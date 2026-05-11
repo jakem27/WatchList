@@ -10,5 +10,5 @@ CRUD web application for making and sharing movie watch lists. Made for Dev10 ca
 - User can add the streaming services that they have to their profile. All movies in their WatchList that are available on one of these services will be indicated as so.
 - To add a friend, user will look them up by username and send a request. If that user accepts, then they can both view each others public folders.
 - When viewing a friends WatchList, user can easily add a movie they see to their own WatchList
-- User can mark a movie as watched, which removes it from WatchList and places it in a watched movies folder
+- User can mark a movie as watched, which updates their stats
 - User can view stats about the movies they've watched such as movies per weeek, total minutes, breakdowns by genre
