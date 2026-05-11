@@ -1,0 +1,31 @@
+import { useState } from "react";
+import Layout from "./Layout";
+import UserForm from "./users/UserForm";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+function AppRouter() {
+
+    const routes = [
+        {
+            path: "",
+            element: <Layout />,
+            children: [
+                {
+                    path: "/",
+                    element: <h2>Home</h2>
+                },
+                {
+                    path: "/users/create",
+                    element: <UserForm />
+                }
+            ]
+        }
+    ]
+
+    const router = createBrowserRouter(routes)
+
+    return <RouterProvider router={router} />
+
+}
+
+export default AppRouter;
