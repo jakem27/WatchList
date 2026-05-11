@@ -15,6 +15,20 @@ public class UserJdbcClientRepository implements UserRepository {
     }
 
     @Override
+    public User findByUsername(String username) {
+        final String sql = """
+                select username, password, favorite_movie, favorite_actor
+                from user
+                where username = ?;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param(username)
+                .query(User.class)
+                .optional().orElse(null);
+    }
+
+    @Override
     public User create(User user) {
         final String sql = """
                 insert into user(username, password)
