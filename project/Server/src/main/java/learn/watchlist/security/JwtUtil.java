@@ -22,6 +22,16 @@ public class JwtUtil {
                 .compact();
     }
 
+    public static String getUsername(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKey(KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
     public static boolean validate(String token) {
         try {
             Jwts.parserBuilder()
