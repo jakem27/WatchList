@@ -5,6 +5,7 @@ import learn.watchlist.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 
@@ -16,6 +17,9 @@ class AuthenticationServiceTest {
 
     @Autowired
     AuthenticationService service;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @MockitoBean
     UserRepository repository;
@@ -81,8 +85,10 @@ class AuthenticationServiceTest {
     @Test
     void shouldLogin() {
         User proposed = makeUser();
+        User expected = makeUser();
+        expected.setPassword(encoder.encode(expected.getPassword()));
 
-        when(repository.findByUsername(proposed.getUsername())).thenReturn(makeUser());
+        when(repository.findByUsername(proposed.getUsername())).thenReturn(expected);
 
         Result<User> result = service.authenticate(proposed);
         assertTrue(result.isSuccess());
