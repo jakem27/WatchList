@@ -31,7 +31,8 @@ public class AuthenticationController {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        String token = JwtUtil.generateToken(user.getUsername());
+        return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
     }
 
     @PostMapping("/login")

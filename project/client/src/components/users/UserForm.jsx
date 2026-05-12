@@ -45,8 +45,7 @@ function UserForm() {
         const payload = await response.json();
 
         if(response.ok) {
-            //setLoggedInUser(payload);
-            //localStorage.setItem("loggedInUser", JSON.stringify(payload));
+            localStorage.setItem("token", payload.token);
             navigate("/");
         } else {
             setErrors(payload);
