@@ -17,6 +17,10 @@ function AppRouter() {
                 {
                     path: "/users/create",
                     element: <UserForm />
+                },
+                {
+                    path: "/users/login",
+                    element: <UserForm />
                 }
             ]
         }

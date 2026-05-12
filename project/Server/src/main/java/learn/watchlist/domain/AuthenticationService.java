@@ -5,12 +5,30 @@ import learn.watchlist.models.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class AuthenticationService {
 
     private final UserRepository repository;
 
-    public UserService(UserRepository repository) {
+    public AuthenticationService(UserRepository repository) {
         this.repository = repository;
+    }
+
+    public Result<User> authenticate(User proposedUser) {
+        Result<User> result = new Result<>();
+
+        User userFromDb = repository.findByUsername(proposedUser.getUsername());
+        if(userFromDb == null) {
+            result.addMessage("User does not exist", ResultType.NOT_FOUND);
+            return result;
+        }
+
+        if(userFromDb.getPassword().equals(proposedUser.getPassword())) {
+            result.setPayload(userFromDb);
+        } else {
+            result.addMessage("Incorrect password", ResultType.INVALID);
+        }
+
+        return result;
     }
 
     public Result<User> create(User user) {
