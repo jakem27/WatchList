@@ -4,8 +4,8 @@ public class User {
     private int id;
     private String username;
     private String password;
-    private String favorite_movie;
-    private String favorite_actor;
+    private String favoriteMovie;
+    private String favoriteActor;
 
     public User() {}
 
@@ -33,19 +33,19 @@ public class User {
         this.password = password;
     }
 
-    public String getFavorite_movie() {
-        return favorite_movie;
+    public String getFavoriteMovie() {
+        return favoriteMovie;
     }
 
-    public void setFavorite_movie(String favorite_movie) {
-        this.favorite_movie = favorite_movie;
+    public void setFavoriteMovie(String favoriteMovie) {
+        this.favoriteMovie = favoriteMovie;
     }
 
-    public String getFavorite_actor() {
-        return favorite_actor;
+    public String getFavoriteActor() {
+        return favoriteActor;
     }
 
-    public void setFavorite_actor(String favorite_actor) {
-        this.favorite_actor = favorite_actor;
+    public void setFavoriteActor(String favoriteActor) {
+        this.favoriteActor = favoriteActor;
     }
 }
