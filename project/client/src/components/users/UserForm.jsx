@@ -28,7 +28,7 @@ function UserForm() {
     async function handleSubmit(event) {
         event.preventDefault();
 
-        let url = "http://localhost:8080/api/user"
+        let url = "http://localhost:8080/auth"
 
         if(!isSignUp) {
             url += "/login";

@@ -7,7 +7,7 @@ import java.security.Key;
 import java.util.Date;
 
 public class JwtUtil {
-    private static final String SECRET = "supersecretkeystring"; // move to environment variables
+    private static final String SECRET = "mysupersecurejwtsecretkey123456789"; // move to environment variables
 
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET.getBytes());
 
