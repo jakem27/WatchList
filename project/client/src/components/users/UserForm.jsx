@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 const INITIAL_USER = {
     username: "",
@@ -15,6 +16,8 @@ function UserForm() {
 
     const [user, setUser] = useState(INITIAL_USER);
     const [errors, setErrors] = useState([]);
+
+    const {setToken} = useContext(UserContext);
 
     useEffect(() => {
         setUser(INITIAL_USER);
@@ -45,6 +48,7 @@ function UserForm() {
         const payload = await response.json();
 
         if(response.ok) {
+            setToken(payload.token);
             localStorage.setItem("token", payload.token);
             navigate("/");
         } else {
@@ -80,7 +84,7 @@ function UserForm() {
 
                     <div className="mb-3">
                         <button className="btn btn-primary me-2" type="submit">
-                            Create
+                            {isSignUp ? "Create" : "Login"}
                         </button>
                         <Link type="button" className="btn btn-warning" to="/">
                             Cancel
