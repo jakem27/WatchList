@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useState, createContext, useContext } from 'react'
 import './App.css'
 import AppRouter from './components/AppRouter'
+import { UserContext } from './components/users/UserContext';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [token, setToken] = useState(null);
 
   return (
-    <AppRouter />
+    <UserContext.Provider value={{ token, setToken }}>
+      <AppRouter />
+    </UserContext.Provider>
   )
 }
 
