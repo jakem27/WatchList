@@ -2,15 +2,18 @@ package learn.watchlist.domain;
 
 import learn.watchlist.data.UserRepository;
 import learn.watchlist.models.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService {
 
     private final UserRepository repository;
+    private final PasswordEncoder encoder;
 
-    public AuthenticationService(UserRepository repository) {
+    public AuthenticationService(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
+        this.encoder = encoder;
     }
 
     public Result<User> authenticate(User proposedUser) {
@@ -22,7 +25,7 @@ public class AuthenticationService {
             return result;
         }
 
-        if(userFromDb.getPassword().equals(proposedUser.getPassword())) {
+        if(encoder.matches(proposedUser.getPassword(), userFromDb.getPassword())) {
             result.setPayload(userFromDb);
         } else {
             result.addMessage("Incorrect password", ResultType.INVALID);
@@ -56,6 +59,8 @@ public class AuthenticationService {
         }
 
         if(result.isSuccess()) {
+            user.setPassword(encoder.encode(user.getPassword()));
+
             user = repository.create(user);
             result.setPayload(user);
         }
