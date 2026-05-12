@@ -17,7 +17,7 @@ function UserForm() {
     const [user, setUser] = useState(INITIAL_USER);
     const [errors, setErrors] = useState([]);
 
-    const {setToken} = useContext(UserContext);
+    const { setToken } = useContext(UserContext);
 
     useEffect(() => {
         setUser(INITIAL_USER);

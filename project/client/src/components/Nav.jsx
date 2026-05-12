@@ -15,7 +15,7 @@ function Nav() {
                         </NavLink>
                     </li>
 
-                    {token === undefined ? 
+                    {token === null ? 
                     <>
                         <li className="nav-item">
                             <NavLink id="link" className="nav-link" to="/users/create">

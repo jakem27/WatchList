@@ -7,10 +7,9 @@ function App() {
   const [token, setToken] = useState(null);
 
   return (
-    <UserContext value={token, setToken}>
+    <UserContext.Provider value={{ token, setToken }}>
       <AppRouter />
-    </UserContext>
-    
+    </UserContext.Provider>
   )
 }
 
