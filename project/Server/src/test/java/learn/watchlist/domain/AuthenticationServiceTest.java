@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class UserServiceTest {
+class AuthenticationServiceTest {
 
     @Autowired
-    UserService service;
+    AuthenticationService service;
 
     @MockitoBean
     UserRepository repository;

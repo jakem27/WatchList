@@ -2,7 +2,7 @@ package learn.watchlist.controllers;
 
 import learn.watchlist.domain.Result;
 import learn.watchlist.domain.ResultType;
-import learn.watchlist.domain.UserService;
+import learn.watchlist.domain.AuthenticationService;
 import learn.watchlist.models.User;
 import learn.watchlist.security.JwtUtil;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class UserController {
-    private final UserService service;
+public class AuthenticationController {
+    private final AuthenticationService service;
 
-    public UserController(UserService service) {
+    public AuthenticationController(AuthenticationService service) {
         this.service = service;
     }
 

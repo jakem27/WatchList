@@ -5,11 +5,11 @@ import learn.watchlist.models.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class AuthenticationService {
 
     private final UserRepository repository;
 
-    public UserService(UserRepository repository) {
+    public AuthenticationService(UserRepository repository) {
         this.repository = repository;
     }
 
