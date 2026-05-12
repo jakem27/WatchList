@@ -40,6 +40,7 @@ public class FolderJdbcClientRepository implements FolderRepository {
         }
 
         folder.setId(keyHolder.getKey().intValue());
+        folder.getUser().setPassword("");
         return folder;
     }
 }
