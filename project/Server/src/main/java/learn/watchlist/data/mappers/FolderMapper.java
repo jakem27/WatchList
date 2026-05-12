@@ -13,7 +13,7 @@ public class FolderMapper implements RowMapper<Folder> {
         Folder folder = new Folder();
         folder.setId(rs.getInt("f.id"));
         folder.setName(rs.getString("f.name"));
-        folder.setPublic(rs.getBoolean("is_public"));
+        folder.setPublic(rs.getBoolean("f.is_public"));
         folder.setParent_id(rs.getInt("f.parent_id"));
 
         UserMapper userMapper = new UserMapper();
