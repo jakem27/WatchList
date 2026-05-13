@@ -31,17 +31,17 @@ public class FolderController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}/children")
-//    public ResponseEntity<?> findChildren(@PathVariable("id") int id, Authentication auth) {
-//        String username = auth.getName();
-//        Result<List<Folder>> result = service.findChildren(id, username);
-//
-//        if(!result.isSuccess()) {
-//            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
-//        }
-//
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    @GetMapping("/{id}/children")
+    public ResponseEntity<?> findChildren(@PathVariable("id") int id, Authentication auth) {
+        String username = auth.getName();
+        Result<List<Folder>> result = service.findChildren(id, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<?> add(@RequestBody Folder folder, Authentication auth) {
