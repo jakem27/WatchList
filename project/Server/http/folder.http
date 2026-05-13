@@ -1,0 +1,11 @@
+@url = http://localhost:8080/api/folder
+
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCb2JUIiwiaWF0IjoxNzc4NjE2NTY5LCJleHAiOjE3Nzg3MDI5Njl9.cWV17VnOGnsn-x-Cj8bmhuKIz-YpyljFVH3HYb0xHsc
+
+{
+    "name": "root",
+    "is_public": false,
+    "parent_id": null
+}
