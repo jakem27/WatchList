@@ -34,20 +34,13 @@ public class FolderJdbcClientRepository implements FolderRepository {
     }
 
     @Override
-    public List<Folder> findRoot(String username) {
-        final String sql = """
-                select f.id, f.name, f.is_public, f.parent_id,
-                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
-                from folder f
-                join user u on u.id = f.user_id
-                join folder p on f.parent_id = p.id
-                where p.name = 'root' and u.username = ?;
-                """;
+    public Folder findRoot(String username) {
+        final String sql = BASE_SQL + " where f.name = 'root' and u.username = ?";
 
         return jdbcClient.sql(sql)
                 .param(username)
                 .query(new FolderMapper())
-                .list();
+                .optional().orElse(null);
     }
 
     @Override
@@ -58,7 +51,8 @@ public class FolderJdbcClientRepository implements FolderRepository {
                 from folder f
                 join user u on u.id = f.user_id
                 join folder p on f.parent_id = p.id
-                where p.id = ?;
+                where p.id = ?
+                order by f.name;
                 """;
 
         return jdbcClient.sql(sql)

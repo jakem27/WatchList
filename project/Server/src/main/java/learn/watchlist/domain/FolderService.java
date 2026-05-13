@@ -18,17 +18,17 @@ public class FolderService {
         this.userRepository = userRepository;
     }
 
-    public Result<List<Folder>> findRoot(String username) {
-        Result<List<Folder>> result = new Result<>();
+    public Result<Folder> findRoot(String username) {
+        Result<Folder> result = new Result<>();
 
         authenticate(result, username);
         if(!result.isSuccess()) {
             return result;
         }
 
-        List<Folder> rootFolders = folderRepository.findRoot(username);
+        Folder root = folderRepository.findRoot(username);
 
-        result.setPayload(rootFolders);
+        result.setPayload(root);
         return result;
     }
 

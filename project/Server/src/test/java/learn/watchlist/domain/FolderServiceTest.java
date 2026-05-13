@@ -105,7 +105,7 @@ class FolderServiceTest {
     void shouldNotFindRootUserDoesNotExist() {
         when(userRepository.findByUsername("username")).thenReturn(null);
 
-        Result<List<Folder>> result = service.findRoot("username");
+        Result<Folder> result = service.findRoot("username");
         assertEquals(ResultType.INVALID, result.getType());
         assertEquals("Invalid user", result.getMessages().get(0));
     }

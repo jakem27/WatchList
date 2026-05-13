@@ -7,7 +7,7 @@ import java.util.List;
 public interface FolderRepository {
     Folder findById(int id);
 
-    List<Folder> findRoot(String username);
+    Folder findRoot(String username);
 
     List<Folder> findChildren(int folderId);
 

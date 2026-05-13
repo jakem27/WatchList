@@ -22,13 +22,13 @@ public class FolderController {
     @GetMapping("/root")
     public ResponseEntity<?> findRoot(Authentication auth) {
         String username = auth.getName();
-        Result<List<Folder>> result = service.findRoot(username);
+        Result<Folder> result = service.findRoot(username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/children")
@@ -40,7 +40,7 @@ public class FolderController {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @PostMapping
