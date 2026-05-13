@@ -1,22 +1,53 @@
 package learn.watchlist.data;
 
+import learn.watchlist.data.mappers.FolderMapper;
 import learn.watchlist.models.Folder;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class FolderJdbcClientRepository implements FolderRepository {
     private final JdbcClient jdbcClient;
+
+    private final String BASE_SQL = """
+                select f.id, f.name, f.is_public, f.parent_id,
+                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
+                from folder f
+                join user u on u.id = f.user_id
+                """;
 
     public FolderJdbcClientRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
     }
 
-
     @Override
     public Folder findById(int id) {
-        return null;
+        final String sql = BASE_SQL + " where f.id = ?;";
+
+        return jdbcClient.sql(sql)
+                .param(id)
+                .query(new FolderMapper())
+                .optional().orElse(null);
+    }
+
+    @Override
+    public List<Folder> findRoot(String username) {
+        final String sql = """
+                select f.id, f.name, f.is_public, f.parent_id,
+                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
+                from folder f
+                join user u on u.id = f.user_id
+                join folder p on f.parent_id = p.id
+                where p.name = 'root' and u.username = ?;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param(username)
+                .query(new FolderMapper())
+                .list();
     }
 
     @Override
