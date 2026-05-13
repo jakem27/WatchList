@@ -65,6 +65,11 @@ public class FolderService {
             return result;
         }
 
+        if(folder.getName().equals("root")) {
+            result.addMessage("Folder name `root` is unavailable", ResultType.INVALID);
+            return result;
+        }
+
         User user = authenticate(result, username);
         if(!result.isSuccess()) {
             return result;
@@ -72,8 +77,8 @@ public class FolderService {
 
         folder.setUser(user);
 
-        if(folder.getParent_id() != 0) {
-            Folder parent = folderRepository.findById(folder.getParent_id());
+        if(folder.getParentId() != 0) {
+            Folder parent = folderRepository.findById(folder.getParentId());
             if(parent == null) {
                 result.addMessage("Parent not found", ResultType.INVALID);
                 return result;

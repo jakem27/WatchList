@@ -61,6 +61,16 @@ class FolderServiceTest {
     }
 
     @Test
+    void shouldNotAddRootName() {
+        Folder folder = TestHelper.makeFolder();
+        folder.setName("root");
+
+        Result<Folder> result = service.add(folder, folder.getUser().getUsername());
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals("Folder name `root` is unavailable", result.getMessages().get(0));
+    }
+
+    @Test
     void shouldNotAddUserDoesNotExist() {
         Folder folder = TestHelper.makeFolder();
 
@@ -74,10 +84,10 @@ class FolderServiceTest {
     @Test
     void shouldNotAddParentFolderDoesNotExist() {
         Folder folder = TestHelper.makeFolder();
-        folder.setParent_id(1);
+        folder.setParentId(1);
 
         when(userRepository.findByUsername(folder.getUser().getUsername())).thenReturn(folder.getUser());
-        when(folderRepository.findById(folder.getParent_id())).thenReturn(null);
+        when(folderRepository.findById(folder.getParentId())).thenReturn(null);
 
         Result<Folder> result = service.add(folder, folder.getUser().getUsername());
         assertEquals(ResultType.INVALID, result.getType());
@@ -87,14 +97,14 @@ class FolderServiceTest {
     @Test
     void shouldNotAddParentFolderDifferentUser() {
         Folder folder = TestHelper.makeFolder();
-        folder.setParent_id(1);
+        folder.setParentId(1);
 
         Folder parent = TestHelper.makeFolder();
         parent.setId(1);
         parent.getUser().setId(1);
 
         when(userRepository.findByUsername(folder.getUser().getUsername())).thenReturn(folder.getUser());
-        when(folderRepository.findById(folder.getParent_id())).thenReturn(parent);
+        when(folderRepository.findById(folder.getParentId())).thenReturn(parent);
 
         Result<Folder> result = service.add(folder, folder.getUser().getUsername());
         assertEquals(ResultType.INVALID, result.getType());
