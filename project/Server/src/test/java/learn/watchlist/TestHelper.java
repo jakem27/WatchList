@@ -18,7 +18,7 @@ public class TestHelper {
         Folder folder = new Folder();
         folder.setName("test folder");
         folder.setPublic(false);
-        folder.setParent_id(0);
+        folder.setParentId(0);
         folder.setUser(makeUser());
         return folder;
     }

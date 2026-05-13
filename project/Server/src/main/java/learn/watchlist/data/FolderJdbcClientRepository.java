@@ -74,7 +74,7 @@ public class FolderJdbcClientRepository implements FolderRepository {
                 .param("name", folder.getName())
                 .param("is_public", folder.isPublic())
                 .param("user_id", folder.getUser().getId())
-                .param("parent_id", folder.getParent_id())
+                .param("parent_id", folder.getParentId())
                 .update(keyHolder, "id");
 
         if(rowsAffected == 0) {

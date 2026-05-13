@@ -31,7 +31,7 @@ class FolderJdbcClientRepositoryTest {
         Folder folder = new Folder();
         folder.setName("test");
         folder.setPublic(true);
-        folder.setParent_id(0);
+        folder.setParentId(0);
         folder.setUser(user);
 
         Folder actual = repository.add(folder);

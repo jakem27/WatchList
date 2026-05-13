@@ -5,9 +5,16 @@ public class Folder {
     private String name;
     private boolean isPublic;
     private User user;
-    private int parent_id;
+    private int parentId;
 
     public Folder() {}
+
+    public Folder(String name, boolean isPublic, User user, int parentId) {
+        this.name = name;
+        this.isPublic = isPublic;
+        this.user = user;
+        this.parentId = parentId;
+    }
 
     public int getId() {
         return id;
@@ -41,11 +48,11 @@ public class Folder {
         this.user = user;
     }
 
-    public int getParent_id() {
-        return parent_id;
+    public int getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(int parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 }
