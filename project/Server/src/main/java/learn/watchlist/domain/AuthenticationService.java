@@ -1,6 +1,8 @@
 package learn.watchlist.domain;
 
+import learn.watchlist.data.FolderRepository;
 import learn.watchlist.data.UserRepository;
+import learn.watchlist.models.Folder;
 import learn.watchlist.models.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,10 +11,12 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private final UserRepository repository;
+    private final FolderRepository folderRepository;
     private final PasswordEncoder encoder;
 
-    public AuthenticationService(UserRepository repository, PasswordEncoder encoder) {
+    public AuthenticationService(UserRepository repository, FolderRepository folderRepository, PasswordEncoder encoder) {
         this.repository = repository;
+        this.folderRepository = folderRepository;
         this.encoder = encoder;
     }
 
@@ -60,9 +64,11 @@ public class AuthenticationService {
 
         if(result.isSuccess()) {
             user.setPassword(encoder.encode(user.getPassword()));
-
             user = repository.create(user);
             result.setPayload(user);
+
+            Folder root = new Folder("root", false, user, 0);
+            folderRepository.add(root);
         }
 
         return result;

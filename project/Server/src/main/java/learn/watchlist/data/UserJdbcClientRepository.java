@@ -1,5 +1,6 @@
 package learn.watchlist.data;
 
+import learn.watchlist.data.mappers.UserMapper;
 import learn.watchlist.models.User;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -17,7 +18,7 @@ public class UserJdbcClientRepository implements UserRepository {
     @Override
     public User findByUsername(String username) {
         final String sql = """
-                select username, password, favorite_movie, favorite_actor
+                select id, username, password, favorite_movie, favorite_actor
                 from user
                 where username = ?;
                 """;

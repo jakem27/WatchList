@@ -1,9 +1,10 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "./users/UserContext";
 
 function Nav() {
     const { token, setToken } = useContext(UserContext);
+    const navigate = useNavigate();
 
     return (
         <nav className="navbar navbar-expand">
@@ -31,9 +32,16 @@ function Nav() {
                     :
                     <>
                         <li className="nav-item">
+                            <NavLink id="link" className="nav-link" to="/watchlist">
+                                My WatchList
+                            </NavLink>
+                        </li>
+
+                        <li className="nav-item">
                             <button id="link" className="nav-link" onClick={() => {
                                 setToken(null);
                                 localStorage.clear("token");
+                                navigate("/")
                             }}>
                                 Logout
                             </button>

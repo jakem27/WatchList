@@ -2,6 +2,7 @@ import { useState } from "react";
 import Layout from "./Layout";
 import UserForm from "./users/UserForm";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import MyWatchList from "./MyWatchList";
 
 function AppRouter() {
 
@@ -21,6 +22,10 @@ function AppRouter() {
                 {
                     path: "/users/login",
                     element: <UserForm />
+                },
+                {
+                    path: "/watchlist",
+                    element: <MyWatchList />
                 }
             ]
         }
