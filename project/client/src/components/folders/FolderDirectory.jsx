@@ -44,11 +44,12 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
 
     async function handleAdd(event) {
         event.preventDefault();
+        debugger;
 
         const folder = {
             name: newFolderName,
-            is_public: false,
-            parent_id: parentFolder ? parentFolder.id : null
+            public: false,
+            parentId: parentFolder ? parentFolder.id : null
         }
 
         const response = await fetch("http://localhost:8080/api/folder", {
@@ -65,7 +66,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
             setFolders([...folders, newFolder]);
 
             setShowForm(false);
-            setFolderName("");
+            setNewFolderName("");
         }
     }
 
