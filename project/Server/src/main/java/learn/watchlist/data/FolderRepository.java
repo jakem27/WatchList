@@ -9,5 +9,7 @@ public interface FolderRepository {
 
     List<Folder> findRoot(String username);
 
+    List<Folder> findChildren(int folderId);
+
     Folder add(Folder folder);
 }

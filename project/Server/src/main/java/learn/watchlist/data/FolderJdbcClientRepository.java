@@ -51,6 +51,23 @@ public class FolderJdbcClientRepository implements FolderRepository {
     }
 
     @Override
+    public List<Folder> findChildren(int folderId) {
+        final String sql = """
+                select f.id, f.name, f.is_public, f.parent_id,
+                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
+                from folder f
+                join user u on u.id = f.user_id
+                join folder p on f.parent_id = p.id
+                where p.id = ?;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param(folderId)
+                .query(new FolderMapper())
+                .list();
+    }
+
+    @Override
     public Folder add(Folder folder) {
         final String sql = """
                 insert into folder(name, is_public, user_id, parent_id)

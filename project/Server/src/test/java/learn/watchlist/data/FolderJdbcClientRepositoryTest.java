@@ -47,4 +47,16 @@ class FolderJdbcClientRepositoryTest {
         assertEquals("f2", actual.get(1).getName());
     }
 
+    @Test
+    void shouldFindChildren() {
+        List<Folder> actual = repository.findChildren(1);
+
+        assertEquals(2, actual.size());
+        assertEquals("f1", actual.get(0).getName());
+        assertEquals("f2", actual.get(1).getName());
+
+        actual = repository.findChildren(2);
+        assertEquals(0, actual.size());
+    }
+
 }
