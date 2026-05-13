@@ -29,18 +29,24 @@ create table folder(
 delimiter //
 create procedure set_known_good_state()
 begin
+	SET FOREIGN_KEY_CHECKS = 0;
+
 	delete from folder;
+	alter table folder auto_increment = 1;
 	delete from user;
 	alter table user auto_increment = 1;
-	alter table folder auto_increment = 1;
+	
+    SET FOREIGN_KEY_CHECKS = 1;
 
 	insert into user(id, username, password) values
 	(1, "user1", "password"),
 	(2, "user2", "123");
 	
 	insert into folder(id, name, is_public, user_id, parent_id) values
-	(1, "f1", 0, 1, NULL),
-	(2, "f1-1", 0, 1, 1);
+	(1, "root", 0, 1, NULL),
+	(2, "f1", 0, 1, 1),
+	(3, "f2", 0, 1, 1),
+	(4, "other", 0, 2, NULL);
 	
 end //
 
