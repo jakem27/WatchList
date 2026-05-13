@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 
 function FolderDirectory({ currFolder, setCurrFolder }) {
     const [folders, setFolders] = useState([]);
-    const [parentFolder, setParentFolder] = useState(null);
+    const [folderStack, setFolderStack] = useState([]);
     const [showForm, setShowForm] = useState(false);
-    const [folderName, setFolderName] = useState("");
+    const [newFolderName, setNewFolderName] = useState("");
+
+    const parentFolder = folderStack[folderStack.length - 1];
 
     useEffect(() => {
         const doFetch = async () => {
@@ -14,7 +16,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                 }
             });
             const payload = await response.json();
-            setParentFolder(payload);
+            setFolderStack([payload]);
         }
         doFetch();
     }, []);
@@ -38,13 +40,13 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
             
         }
         doFetch();
-    }, [parentFolder]);
+    }, [folderStack]);
 
     async function handleAdd(event) {
         event.preventDefault();
 
         const folder = {
-            name: folderName,
+            name: newFolderName,
             is_public: false,
             parent_id: parentFolder ? parentFolder.id : null
         }
@@ -69,7 +71,13 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
 
     return (
         <div className="container">
-            <h3>{parentFolder ? parentFolder.name : "My WatchList"}</h3>
+            <button 
+                disabled={folderStack.length <= 1}
+                onClick={() => { setFolderStack(folderStack.slice(0, -1))}}
+            >
+                {`<`}
+            </button>
+            <h3>{!parentFolder || parentFolder.name === "root" ? "My WatchList" : parentFolder.name}</h3>
             <button onClick={() => setShowForm(true)}>+</button>
             <div className="list-group">
                 {folders.map(folder => 
@@ -77,15 +85,15 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                     onClick={() => setCurrFolder(folder)}
                     key = {folder.id}>
                         <span>{folder.name}</span>
-                        <button onClick={() => setParentFolder(folder)}>{`>`}</button>
+                        <button onClick={() => setFolderStack([...folderStack, folder])}>{`>`}</button>
                     </div>)}
                 {showForm && 
                     <form onSubmit={handleAdd}>
                         <input 
                             type="text" 
                             className="form-control" 
-                            value={folderName}
-                            onChange={(e) => setFolderName(e.target.value)}/>
+                            value={newFolderName}
+                            onChange={(e) => setNewFolderName(e.target.value)}/>
                     </form>}
                     
             </div>            
