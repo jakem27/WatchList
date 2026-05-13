@@ -6,6 +6,8 @@ import learn.watchlist.models.Folder;
 import learn.watchlist.models.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FolderService {
     private final FolderRepository folderRepository;
@@ -14,6 +16,21 @@ public class FolderService {
     public FolderService(FolderRepository folderRepository, UserRepository userRepository) {
         this.folderRepository = folderRepository;
         this.userRepository = userRepository;
+    }
+
+    public Result<List<Folder>> findRoot(String username) {
+        Result<List<Folder>> result = new Result<>();
+
+        User user = userRepository.findByUsername(username);
+        if(user == null) {
+            result.addMessage("Invalid user", ResultType.INVALID);
+            return result;
+        }
+
+        List<Folder> rootFolders = folderRepository.findRoot(username);
+
+        result.setPayload(rootFolders);
+        return result;
     }
 
     public Result<Folder> add(Folder folder, String username) {
