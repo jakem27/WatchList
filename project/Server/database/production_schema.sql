@@ -23,3 +23,12 @@ create table folder(
 		foreign key (parent_id)
 		references folder(id)
 );
+
+create table movie( 
+	id int primary key auto_increment,
+	title text,
+	year int,
+	runtime text,
+	director text,
+	genre text
+);

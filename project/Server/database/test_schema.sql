@@ -24,7 +24,14 @@ create table folder(
 		references folder(id)
 );
 
-
+create table movie( 
+	id int primary key auto_increment,
+	title text,
+	year int,
+	runtime text,
+	director text,
+	genre text
+);
 
 delimiter //
 create procedure set_known_good_state()
