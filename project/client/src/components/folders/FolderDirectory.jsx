@@ -36,6 +36,8 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
             if(response.ok) {
                 const payload = await response.json();
                 setFolders(payload);
+                setShowForm(false);
+                setNewFolderName("");
             }
             
         }
@@ -72,21 +74,33 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
 
     return (
         <div className="container">
-            <button 
+            <div className="d-flex justify-content-between align-items-center gap-2">
+               <button 
+                className="btn btn-link p-0"
                 disabled={folderStack.length <= 1}
                 onClick={() => { setFolderStack(folderStack.slice(0, -1))}}
             >
-                {`<`}
+                <i className="bi bi-arrow-left"></i>
             </button>
-            <h3>{!parentFolder || parentFolder.name === "root" ? "My WatchList" : parentFolder.name}</h3>
-            <button onClick={() => setShowForm(true)}>+</button>
+            <h3 className="mb-0">{!parentFolder || parentFolder.name === "root" ? "My WatchList" : parentFolder.name}</h3>
+            <button className="btn btn-link p-0" onClick={() => setShowForm(true)}>
+                <i className="bi bi-plus"></i>    
+            </button> 
+            </div>
+            
             <div className="list-group">
                 {folders.map(folder => 
-                    <div  className={"list-group-item list-group-item-action" + (currFolder && currFolder.name === folder.name ? " active" : "")}
+                    <div  className={" d-flex justify-content-between align-items-center gap-2" +
+                        " list-group-item list-group-item-action" + (currFolder && currFolder.name === folder.name ? " active" : "")}
                     onClick={() => setCurrFolder(folder)}
                     key = {folder.id}>
                         <span>{folder.name}</span>
-                        <button onClick={() => setFolderStack([...folderStack, folder])}>{`>`}</button>
+                        <button
+                            className="btn btn-link p-0"
+                            onClick={() => setFolderStack([...folderStack, folder])}
+                        >
+                            <i className="bi bi-arrow-right"></i>
+                        </button>
                     </div>)}
                 {showForm && 
                     <form onSubmit={handleAdd}>
