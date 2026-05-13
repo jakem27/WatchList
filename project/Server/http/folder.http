@@ -9,3 +9,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCb2JUIiwiaWF0IjoxNzc4NjE2N
     "is_public": false,
     "parent_id": null
 }
+
+###
+
+GET {{url}}/root HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTc3ODY4NzQyNSwiZXhwIjoxNzc4NzczODI1fQ.crPVHCOerQ8VqQodbiwHmHdxwCwOeYeOQ7XJYzOzbC8
