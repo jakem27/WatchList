@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -99,5 +101,36 @@ class FolderServiceTest {
         assertEquals("Parent and child folders must belong to same user", result.getMessages().get(0));
     }
 
+    @Test
+    void shouldNotFindRootUserDoesNotExist() {
+        when(userRepository.findByUsername("username")).thenReturn(null);
+
+        Result<List<Folder>> result = service.findRoot("username");
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals("Invalid user", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotFindChildrenUserDoesNotExist() {
+        when(userRepository.findByUsername("username")).thenReturn(null);
+
+        Result<List<Folder>> result = service.findChildren(1, "username");
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals("Invalid user", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotFindChildrenWrongUser() {
+        Folder folder = TestHelper.makeFolder();
+        folder.setId(1);
+        User user = TestHelper.makeUser();
+
+        when(userRepository.findByUsername("username")).thenReturn(user);
+        when(folderRepository.findById(1)).thenReturn(folder);
+
+        Result<List<Folder>> result = service.findChildren(1, "username");
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals("Cannot access someone else's folder", result.getMessages().get(0));
+    }
 
 }

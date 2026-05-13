@@ -21,15 +21,34 @@ public class FolderService {
     public Result<List<Folder>> findRoot(String username) {
         Result<List<Folder>> result = new Result<>();
 
-        User user = userRepository.findByUsername(username);
-        if(user == null) {
-            result.addMessage("Invalid user", ResultType.INVALID);
+        authenticate(result, username);
+        if(!result.isSuccess()) {
             return result;
         }
 
         List<Folder> rootFolders = folderRepository.findRoot(username);
 
         result.setPayload(rootFolders);
+        return result;
+    }
+
+    public Result<List<Folder>> findChildren(int folderId, String username) {
+        Result<List<Folder>> result = new Result<>();
+
+        authenticate(result,username);
+        if(!result.isSuccess()) {
+            return result;
+        }
+
+        Folder folder = folderRepository.findById(folderId);
+        if(folder.getUser() == null || !username.equals(folder.getUser().getUsername())) {
+            result.addMessage("Cannot access someone else's folder", ResultType.INVALID);
+            return result;
+        }
+
+        List<Folder> childFolders = folderRepository.findChildren(folderId);
+
+        result.setPayload(childFolders);
         return result;
     }
 
@@ -46,13 +65,12 @@ public class FolderService {
             return result;
         }
 
-        User user = userRepository.findByUsername(username);
-        if(user == null) {
-            result.addMessage("Invalid user", ResultType.INVALID);
+        User user = authenticate(result, username);
+        if(!result.isSuccess()) {
             return result;
-        } else {
-            folder.setUser(user);
         }
+
+        folder.setUser(user);
 
         if(folder.getParent_id() != 0) {
             Folder parent = folderRepository.findById(folder.getParent_id());
@@ -71,5 +89,13 @@ public class FolderService {
         result.setPayload(created);
 
         return result;
+    }
+
+    public User authenticate(Result<?> result, String username) {
+        User user = userRepository.findByUsername(username);
+        if(user == null) {
+            result.addMessage("Invalid user", ResultType.INVALID);
+        }
+        return user;
     }
 }
