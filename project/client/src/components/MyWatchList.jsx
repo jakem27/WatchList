@@ -10,7 +10,7 @@ function MyWatchList() {
                 <FolderDirectory currFolder={currFolder} setCurrFolder={setCurrFolder}/>
             </div>
             <div className="col-5">
-                <h3>{currFolder ? currFolder.name : ""}</h3>
+                <h3>{currFolder && currFolder.name !== "root" ? currFolder.name : "My WatchList"}</h3>
             </div>
         </div>
     )

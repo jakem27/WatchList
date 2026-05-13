@@ -92,15 +92,26 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                 {folders.map(folder => 
                     <div  className={" d-flex justify-content-between align-items-center gap-2" +
                         " list-group-item list-group-item-action" + (currFolder && currFolder.name === folder.name ? " active" : "")}
-                    onClick={() => setCurrFolder(folder)}
-                    key = {folder.id}>
-                        <span>{folder.name}</span>
-                        <button
-                            className="btn btn-link p-0"
-                            onClick={() => setFolderStack([...folderStack, folder])}
-                        >
-                            <i className="bi bi-arrow-right"></i>
-                        </button>
+                        onClick={() => {
+                            if(currFolder === folder) {
+                                setCurrFolder(parentFolder);
+                            } else {
+                                setCurrFolder(folder);
+                            }
+                        }}
+                        key = {folder.id}>
+                            <span>{folder.name}</span>
+                            <button
+                                className="btn btn-link p-0"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+
+                                    setFolderStack([...folderStack, folder]);
+                                    setCurrFolder(folder);
+                                }}
+                            >
+                                <i className="bi bi-arrow-right"></i>
+                            </button>
                     </div>)}
                 {showForm && 
                     <form onSubmit={handleAdd}>
