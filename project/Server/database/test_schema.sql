@@ -37,6 +37,7 @@ create table movie_folder(
 	movie_id int,
 	folder_id int,
 	watched bit,
+	liked bit null,
 	constraint pk_movie_folder
 		primary key (movie_id, folder_id),
 	constraint fk_movie_folder_movie_id
@@ -77,8 +78,8 @@ begin
 	(4, "other", 0, 2, NULL);
 	
 	insert into movie_folder(movie_id, folder_id, watched) values
-	(1, 1, 0),
-	(2, 1, 0);
+	(1, 1, 0, NULL),
+	(2, 1, 0, NULL);
 	
 end //
 
