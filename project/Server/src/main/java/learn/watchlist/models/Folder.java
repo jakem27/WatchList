@@ -1,5 +1,7 @@
 package learn.watchlist.models;
 
+import java.util.List;
+
 public class Folder {
     private int id;
     private String name;
