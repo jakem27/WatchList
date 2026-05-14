@@ -5,7 +5,7 @@ import AddMovie from "./movies/AddMovie";
 
 function MyWatchList() {
     const [currFolder, setCurrFolder] = useState(null);
-
+    
     return (
         <div className="row">
             <div className="col-3">

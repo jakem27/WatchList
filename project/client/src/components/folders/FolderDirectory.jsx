@@ -17,7 +17,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
             });
             const payload = await response.json();
             setFolderStack([payload]);
-            setCurrFolder([payload]);
+            setCurrFolder(payload);
         }
         doFetch();
     }, []);
