@@ -42,7 +42,7 @@ public class MovieFolderService {
             return result;
         }
 
-        User user = authenticate(result, username);
+        authenticate(result, username);
         if(!result.isSuccess()) {
             return result;
         }

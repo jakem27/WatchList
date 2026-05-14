@@ -19,6 +19,29 @@ function AddMovie({ currFolder }) {
         }
     }
 
+    async function handleAdd() {
+        if(movie === null) {
+            return;
+        }
+
+        const response = await fetch(`http://localhost:8080/api/folder/add-movie`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                folderId: currFolder.id,
+                movie: movie
+            })
+        })
+
+        if(response.ok) {
+            setMovieTitle("");
+            setMovie(null);
+        }
+    }
+
     return ( 
         <div className="modal-dialog">
             <div className="modal-content">
@@ -46,7 +69,7 @@ function AddMovie({ currFolder }) {
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary">Add</button>
+                    <button type="button" className="btn btn-primary" onClick={handleAdd}>Add</button>
                 </div>
             </div>
         </div>
