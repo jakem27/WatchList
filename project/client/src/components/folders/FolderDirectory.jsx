@@ -17,6 +17,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
             });
             const payload = await response.json();
             setFolderStack([payload]);
+            setCurrFolder([payload]);
         }
         doFetch();
     }, []);
@@ -78,7 +79,10 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                <button 
                 className="btn btn-link p-0"
                 disabled={folderStack.length <= 1}
-                onClick={() => { setFolderStack(folderStack.slice(0, -1))}}
+                onClick={() => { 
+                    setFolderStack(folderStack.slice(0, -1));
+                    setCurrFolder(parentFolder);
+                }}
             >
                 <i className="bi bi-arrow-left"></i>
             </button>
