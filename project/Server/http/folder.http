@@ -14,3 +14,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJCb2JUIiwiaWF0IjoxNzc4NjE2N
 
 GET {{url}}/root HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTc3ODY4NzQyNSwiZXhwIjoxNzc4NzczODI1fQ.crPVHCOerQ8VqQodbiwHmHdxwCwOeYeOQ7XJYzOzbC8
+
+###
+
+POST {{url}}/add-movie HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc5NDI4NiwiZXhwIjoxNzc4ODgwNjg2fQ.qstLQvSJ5FvEnisCsfn_tqtuI3EUcmxQ0mlCJ8mnUwE
+
+{
+    "folderId": 1,
+    "movie": {
+        "id": 1,
+        "title": "Shrek",
+        "year": 2001,
+        "runtime": 90,
+        "director": "Andrew Adamson, Vicky Jenson",
+        "genre": "Animation, Adventure, Comedy"
+    }
+}
