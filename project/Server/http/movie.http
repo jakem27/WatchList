@@ -1,0 +1,16 @@
+@url = http://localhost:8080/api/movie
+
+# fetch movie from MovieRepository
+GET {{url}}/Shrek HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc3MDI1OSwiZXhwIjoxNzc4ODU2NjU5fQ.ea8gxfx-KuQyl3NI1p3TlL-wM3kWS1lbUiYFIqJrjKY
+
+###
+# fetch movie from OMDB
+GET {{url}}/Spider-Man HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc3MDI1OSwiZXhwIjoxNzc4ODU2NjU5fQ.ea8gxfx-KuQyl3NI1p3TlL-wM3kWS1lbUiYFIqJrjKY
+
+
+###
+# Movie not found
+GET {{url}}/djwndf HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc3MDI1OSwiZXhwIjoxNzc4ODU2NjU5fQ.ea8gxfx-KuQyl3NI1p3TlL-wM3kWS1lbUiYFIqJrjKY

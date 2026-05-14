@@ -14,7 +14,7 @@ public class OmdbClient {
 
     public OmdbClient(RestClient.Builder builder, @Value("${omdb.api.key}") String apiKey) {
         this.restClient = builder
-                .baseUrl("http://www.omdbapi.com")
+                .baseUrl("https://www.omdbapi.com")
                 .build();
 
         this.apiKey = apiKey;
@@ -25,8 +25,8 @@ public class OmdbClient {
                 .uri("/?apikey=" + apiKey + "&t=" + title)
                 .retrieve()
                 .body(OmdbMovieResponse.class);
-        
-        if(response == null) {
+
+        if(response == null || response.getResponse().equals("False")) {
             return null;
         }
 

@@ -28,7 +28,7 @@ public class TestHelper {
         Movie movie = new Movie();
         movie.setTitle("new movie");
         movie.setYear(2026);
-        movie.setRuntime("100 min");
+        movie.setRuntime(100);
         movie.setDirector("director1");
         movie.setGenre("sci-fi");
         return movie;

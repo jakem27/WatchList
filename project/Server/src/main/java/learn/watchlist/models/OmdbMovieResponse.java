@@ -18,6 +18,9 @@ public class OmdbMovieResponse {
     @JsonProperty("Genre")
     private String genre;
 
+    @JsonProperty("Response")
+    private String response;
+
     public String getTitle() {
         return title;
     }
@@ -36,5 +39,9 @@ public class OmdbMovieResponse {
 
     public String getGenre() {
         return genre;
+    }
+
+    public String getResponse() {
+        return response;
     }
 }

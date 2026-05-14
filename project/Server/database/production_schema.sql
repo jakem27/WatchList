@@ -32,3 +32,5 @@ create table movie(
 	director text,
 	genre text
 );
+
+select * from movie;
