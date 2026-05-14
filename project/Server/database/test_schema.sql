@@ -77,7 +77,7 @@ begin
 	(3, "f2", 0, 1, 1),
 	(4, "other", 0, 2, NULL);
 	
-	insert into movie_folder(movie_id, folder_id, watched) values
+	insert into movie_folder(movie_id, folder_id, watched, liked) values
 	(1, 1, 0, NULL),
 	(2, 1, 0, NULL);
 	

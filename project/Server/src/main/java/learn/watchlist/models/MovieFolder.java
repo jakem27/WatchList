@@ -8,6 +8,11 @@ public class MovieFolder {
 
     public MovieFolder() {}
 
+    public MovieFolder(int folderId, Movie movie) {
+        this.folderId = folderId;
+        this.movie = movie;
+    }
+
     public int getFolderId() {
         return folderId;
     }
