@@ -37,6 +37,8 @@ create table movie_folder(
 	movie_id int,
 	folder_id int,
 	watched bit,
+	constraint pk_movie_folder
+		primary key (movie_id, folder_id),
 	constraint fk_movie_folder_movie_id
 		foreign key (movie_id)
 		references movie(id),

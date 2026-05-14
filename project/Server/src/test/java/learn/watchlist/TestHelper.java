@@ -2,6 +2,7 @@ package learn.watchlist;
 
 import learn.watchlist.models.Folder;
 import learn.watchlist.models.Movie;
+import learn.watchlist.models.MovieFolder;
 import learn.watchlist.models.User;
 
 public class TestHelper {
@@ -32,5 +33,14 @@ public class TestHelper {
         movie.setDirector("director1");
         movie.setGenre("sci-fi");
         return movie;
+    }
+
+    public static MovieFolder makeMovieFolder() {
+        Movie movie = makeMovie();
+        movie.setId(2);
+        Folder folder = makeFolder();
+        folder.setId(3);
+
+        return new MovieFolder(movie, folder, false);
     }
 }

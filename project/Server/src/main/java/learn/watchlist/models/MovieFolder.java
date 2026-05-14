@@ -7,6 +7,12 @@ public class MovieFolder {
 
     public MovieFolder() {}
 
+    public MovieFolder(Movie movie, Folder folder, boolean watched) {
+        this.movie = movie;
+        this.folder = folder;
+        this.watched = watched;
+    }
+
     public Movie getMovie() {
         return movie;
     }
