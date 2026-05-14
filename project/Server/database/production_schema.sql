@@ -28,7 +28,7 @@ create table movie(
 	id int primary key auto_increment,
 	title text,
 	year int,
-	runtime text,
+	runtime int,
 	director text,
 	genre text
 );

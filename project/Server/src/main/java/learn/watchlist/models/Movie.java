@@ -4,7 +4,7 @@ public class Movie {
     private int id;
     private String title;
     private int year;
-    private String runtime;
+    private int runtime;
     private String director;
     private String genre;
 
@@ -34,11 +34,11 @@ public class Movie {
         this.year = year;
     }
 
-    public String getRuntime() {
+    public int getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(String runtime) {
+    public void setRuntime(int runtime) {
         this.runtime = runtime;
     }
 
