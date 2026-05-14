@@ -28,6 +28,7 @@ class FolderJdbcClientRepositoryTest {
     @Test
     void shouldAdd() {
         Folder folder = TestHelper.makeFolder();
+        folder.getUser().setId(1);
 
         Folder actual = repository.add(folder);
         assertEquals(5, actual.getId());
