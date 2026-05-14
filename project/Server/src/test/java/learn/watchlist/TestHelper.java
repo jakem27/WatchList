@@ -1,6 +1,7 @@
 package learn.watchlist;
 
 import learn.watchlist.models.Folder;
+import learn.watchlist.models.Movie;
 import learn.watchlist.models.User;
 
 public class TestHelper {
@@ -21,5 +22,15 @@ public class TestHelper {
         folder.setParentId(0);
         folder.setUser(makeUser());
         return folder;
+    }
+
+    public static Movie makeMovie() {
+        Movie movie = new Movie();
+        movie.setTitle("new movie");
+        movie.setYear(2026);
+        movie.setRuntime(100);
+        movie.setDirector("director1");
+        movie.setGenre("sci-fi");
+        return movie;
     }
 }
