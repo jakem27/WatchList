@@ -3,9 +3,15 @@ package learn.watchlist.models;
 public class Friendship {
     private int user1Id;
     private int user2Id;
-    private boolean isPending;
-    
+    private boolean pending;
+
     public Friendship() {}
+
+    public Friendship(int user1Id, int user2Id) {
+        this.user1Id = user1Id;
+        this.user2Id = user2Id;
+        this.pending = true;
+    }
 
     public int getUser1Id() {
         return user1Id;
@@ -24,10 +30,10 @@ public class Friendship {
     }
 
     public boolean isPending() {
-        return isPending;
+        return pending;
     }
 
     public void setPending(boolean pending) {
-        isPending = pending;
+        this.pending = pending;
     }
 }

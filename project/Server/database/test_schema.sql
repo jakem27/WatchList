@@ -81,7 +81,8 @@ begin
 
 	insert into user(id, username, password) values
 	(1, "user1", "password"),
-	(2, "user2", "123");
+	(2, "user2", "123"),
+	(3, "user3", "asdf");
 	
 	insert into movie(id, title, year, runtime, director, genre, poster_url ) values
 	(1, "movie1", 2001, 90, "director1", "action", ""),
