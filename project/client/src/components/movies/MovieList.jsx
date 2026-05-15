@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 
-function MovieList({ currFolder, setCurrMovie }) {
+function MovieList({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd }) {
     const [movieFolders, setMovieFolders] = useState([]);
 
     useEffect(() => {
+        if(currFolder === null) {
+            return;
+        }
+
         const doFetch = async () => {
             const response = await fetch(`http://localhost:8080/api/folder/${currFolder.id}/movies`, {
                 headers: {
@@ -17,7 +21,12 @@ function MovieList({ currFolder, setCurrMovie }) {
             }
         }
         doFetch();
-    }, [currFolder]);
+    }, [currFolder, currMovie, canAdd]);
+
+    function handleClick(movie) {
+        setCurrMovie(movie);
+        setCanAdd(false);
+    }
 
     return (
         <>
@@ -27,31 +36,39 @@ function MovieList({ currFolder, setCurrMovie }) {
                     </div>
             }
 
-            {movieFolders.map(mf => (
-                <div className="card w-75 shadow-sm">
-                    <div className="card-body">
-                        <div className="d-flex justify-content-between align-itmes-center mb-3">
-                            <div className="d-flex align-items-center gap-2">
-                                <i className="bi bi-folder fs-4"></i>
-                                <small>
-                                    {mf.folder.name}
-                                </small>
+            <div className="d-flex flex-column gap-3 overflow-auto">
+                {movieFolders.map(mf => (
+                    <div className="card w-100 shadow-sm" key={[mf.movie.id, mf.folder.id]} onClick={() => handleClick(mf.movie)}>
+                        <div className="card-body">
+                            <div className="d-flex justify-content-between align-itmes-center mb-3">
+
+                                <div className="d-flex flex-column">
+                                    <div className="d-flex align-items-center gap-2">
+                                        <i className="bi bi-folder fs-4"></i>
+                                        <small>
+                                            {mf.folder.name}
+                                        </small>
+                                    </div>
+
+                                    <div className="d-flex align-items-center gap-2">
+                                        <i className="bi bi-camera-reels fs-4"></i>
+                                        <span className="fw-semibold">
+                                            {mf.movie.title}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                
+
+                                <div className="d-flex align-items-center gap-2">
+                                    watched
+                                </div>
                             </div>
 
-                            <div className="d-flex align-items-center gap-2">
-                                <i className="bi bi-camera-reels fs-4"></i>
-                                <span className="fw-semibold">
-                                    {mf.movie.title}
-                                </span>
-                            </div>
-
-                            <div className="d-flex align-items-center gap-2">
-                                watched
-                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </>
     );
 }

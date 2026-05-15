@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function AddMovie({ currFolder, currMovie, setCurrMovie }) {
+function AddMovie({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd}) {
     const [movieTitle, setMovieTitle] = useState("");
+
+    useEffect(() => {setCanAdd(false)}, [movieTitle])
 
     async function handleSearch(event) {
         event.preventDefault();
@@ -15,6 +17,7 @@ function AddMovie({ currFolder, currMovie, setCurrMovie }) {
         if(response.ok) {
             const payload = await response.json();
             setCurrMovie(payload);
+            setCanAdd(true);
         }
     }
 
@@ -37,7 +40,7 @@ function AddMovie({ currFolder, currMovie, setCurrMovie }) {
 
         if(response.ok) {
             setMovieTitle("");
-            setCurrMovie(null);
+            setCanAdd(false);
         }
     }
 
@@ -65,7 +68,7 @@ function AddMovie({ currFolder, currMovie, setCurrMovie }) {
                 </button>
             </form>
 
-            <button className="btn btn-success" onClick={handleAdd} disabled={currMovie === null}>
+            <button className="btn btn-success" onClick={handleAdd} disabled={!canAdd}>
                 {currFolder !== null && `Add to ${currFolder.name === 'root' ? 'My WatchList' : currFolder.name}`}
             </button>
         </div>

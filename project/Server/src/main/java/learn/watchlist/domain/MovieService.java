@@ -26,7 +26,7 @@ public class MovieService {
 
         if(movie == null) {
             movie = omdbClient.fetchMovie(title);
-            if(movie != null) {
+            if(movie != null && movie.getTitle().equalsIgnoreCase(title)) {
                 movie = repository.add(movie);
                 result.setPayload(movie);
             } else {

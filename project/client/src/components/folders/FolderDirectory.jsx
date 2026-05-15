@@ -47,7 +47,6 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
 
     async function handleAdd(event) {
         event.preventDefault();
-        debugger;
 
         const folder = {
             name: newFolderName,
