@@ -24,6 +24,6 @@ POST {{url}}/login HTTP/1.1
 Content-Type: application/json
 
 {
-   "username": "user2",
-    "password": "123"
+   "username": "jakem",
+    "password": "password"
 }

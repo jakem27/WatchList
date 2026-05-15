@@ -56,7 +56,7 @@ class FriendshipServiceTest {
 
         Result<Void> result = service.addRequest("user", "fake");
 
-        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals(ResultType.NOT_FOUND, result.getType());
         assertEquals("Requested friend does not exist", result.getMessages().get(0));
     }
 

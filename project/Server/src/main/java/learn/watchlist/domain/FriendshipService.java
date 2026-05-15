@@ -27,7 +27,7 @@ public class FriendshipService {
 
         User friend = userRepository.findByUsername(friendUsername);
         if(friend == null) {
-            result.addMessage("Requested friend does not exist", ResultType.INVALID);
+            result.addMessage("Requested friend does not exist", ResultType.NOT_FOUND);
             return result;
         }
 
