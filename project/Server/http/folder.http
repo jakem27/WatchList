@@ -32,3 +32,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc5N
         "genre": "Animation, Adventure, Comedy"
     }
 }
+
+###
+
+GET {{url}}/2/movies HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODgxMjU4MSwiZXhwIjoxNzc4ODk4OTgxfQ.1ipAbAYnVa78b-lvVuuxumaXTjGqPl5tiB8RBifi2vs

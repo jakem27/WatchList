@@ -60,6 +60,18 @@ public class FolderController {
         return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}/movies")
+    public ResponseEntity<?> findMovies(@PathVariable("id") int id, Authentication auth) {
+        String username = auth.getName();
+        Result<List<MovieFolder>> result = movieFolderService.findByFolderId(id, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
     @PostMapping("/add-movie")
     public ResponseEntity<?> addMovie(@RequestBody MovieFolder movieFolder, Authentication auth) {
         String username = auth.getName();
@@ -70,7 +82,5 @@ public class FolderController {
         }
 
         return new ResponseEntity<>(HttpStatus.CREATED);
-
-
     }
 }
