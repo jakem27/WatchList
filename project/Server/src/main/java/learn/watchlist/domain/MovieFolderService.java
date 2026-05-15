@@ -10,6 +10,8 @@ import learn.watchlist.models.MovieFolder;
 import learn.watchlist.models.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MovieFolderService {
     private final MovieFolderRepository movieFolderRepository;
@@ -22,6 +24,27 @@ public class MovieFolderService {
         this.userRepository = userRepository;
         this.folderRepository = folderRepository;
         this.movieRepository = movieRepository;
+    }
+
+    public Result<List<MovieFolder>> findByFolderId(int folderId, String username) {
+        Result<List<MovieFolder>> result = new Result<>();
+        authenticateUser(result, username);
+
+        Folder folder = folderRepository.findById(folderId);
+        if(folder == null) {
+            result.addMessage("Folder does not exist", ResultType.NOT_FOUND);
+            return result;
+        }
+
+        if(!username.equals(folder.getUser().getUsername())) {
+            // check for friendship and public/private
+            result.addMessage("Cannot access someone else's folder", ResultType.INVALID);
+            return result;
+        }
+
+        List<MovieFolder> movieFolders = movieFolderRepository.findByFolderId(folderId);
+        result.setPayload(movieFolders);
+        return result;
     }
 
     public Result<Void> add(MovieFolder movieFolder, String username) {
@@ -42,7 +65,7 @@ public class MovieFolderService {
             return result;
         }
 
-        authenticate(result, username);
+        authenticateUser(result, username);
         if(!result.isSuccess()) {
             return result;
         }
@@ -54,6 +77,7 @@ public class MovieFolderService {
         }
         if(!username.equals(folder.getUser().getUsername())) {
             result.addMessage("Cannot add movie to someone else's folder", ResultType.INVALID);
+            return result;
         }
 
         Movie movie = movieRepository.findByTitle(movieFolder.getMovie().getTitle());
@@ -69,11 +93,11 @@ public class MovieFolderService {
         return result;
     }
 
-    private User authenticate(Result<?> result, String username) {
+    private void authenticateUser(Result<?> result, String username) {
         User user = userRepository.findByUsername(username);
         if(user == null) {
             result.addMessage("Invalid user", ResultType.INVALID);
         }
-        return user;
     }
+
 }
