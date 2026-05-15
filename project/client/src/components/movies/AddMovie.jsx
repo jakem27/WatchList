@@ -1,8 +1,7 @@
 import { useState } from "react";
 
-function AddMovie({ currFolder }) {
+function AddMovie({ currFolder, currMovie, setCurrMovie }) {
     const [movieTitle, setMovieTitle] = useState("");
-    const[movie, setMovie] = useState(null);
 
     async function handleSearch(event) {
         event.preventDefault();
@@ -15,12 +14,12 @@ function AddMovie({ currFolder }) {
 
         if(response.ok) {
             const payload = await response.json();
-            setMovie(payload);
+            setCurrMovie(payload);
         }
     }
 
     async function handleAdd() {
-        if(movie === null) {
+        if(currMovie === null) {
             return;
         }
 
@@ -31,47 +30,44 @@ function AddMovie({ currFolder }) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                movie: movie,
+                movie: currMovie,
                 folder: currFolder
             })
         })
 
         if(response.ok) {
             setMovieTitle("");
-            setMovie(null);
+            setCurrMovie(null);
         }
     }
 
     return ( 
-        <div className="modal-dialog">
-            <div className="modal-content">
-                <div className="modal-header">
-                    <h1 className="modal-title fs-5">{`Add a Movie to ${currFolder.name}`}</h1>
-                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                    <form onSubmit={handleSearch}>
-                        <label htmlFor="movieTitle">Movie Title</label>
-                        <input 
-                            id="movieTitle"
-                            className="form-control"
-                            value={movieTitle}
-                            onChange={(e) => setMovieTitle(e.target.value)}
-                            required 
-                        />
+        <div className="card p-3">
+            <h3 className="mb-3">
+                Search Movie
+            </h3>
 
-                        <button type="submit" className="btn btn-primary">
-                            <i className="bi bi-search"></i>
-                        </button>
-                    </form>
+            <form
+                onSubmit={handleSearch}
+                className="d-flex gap-2 mb-3"
+            >
+                <input
+                    id="movieTitle"
+                    className="form-control"
+                    placeholder="Search movie title..."
+                    value={movieTitle}
+                    onChange={(e) => setMovieTitle(e.target.value)}
+                    required
+                />
 
-                    <span>{movie !== null && movie.title}</span>
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" className="btn btn-primary" onClick={handleAdd}>Add</button>
-                </div>
-            </div>
+                <button type="submit" className="btn btn-primary">
+                    <i className="bi bi-search"></i>
+                </button>
+            </form>
+
+            <button className="btn btn-success" onClick={handleAdd} disabled={currMovie === null}>
+                {currFolder !== null && `Add to ${currFolder.name === 'root' ? 'My WatchList' : currFolder.name}`}
+            </button>
         </div>
     );
 }
