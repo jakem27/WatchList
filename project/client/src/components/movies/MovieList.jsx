@@ -38,7 +38,7 @@ function MovieList({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd }) {
 
             <div className="d-flex flex-column gap-3 overflow-auto">
                 {movieFolders.map(mf => (
-                    <div className="card w-100 shadow-sm" key={[mf.movie.id, mf.folder.id]} onClick={() => handleClick(mf.movie)}>
+                    <div className="card w-100 shadow-sm movie-card" key={[mf.movie.id, mf.folder.id]} onClick={() => handleClick(mf.movie)}>
                         <div className="card-body">
                             <div className="d-flex justify-content-between align-itmes-center mb-3">
 
