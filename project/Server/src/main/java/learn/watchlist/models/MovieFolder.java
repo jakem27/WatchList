@@ -17,7 +17,7 @@ public class MovieFolder {
         return folder;
     }
 
-    public void setFolderId(Folder folder) {
+    public void setFolder(Folder folder) {
         this.folder = folder;
     }
 

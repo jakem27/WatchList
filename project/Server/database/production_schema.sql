@@ -48,6 +48,9 @@ create table movie_folder(
 		references folder(id)
 );
 
+create index idx_folder_parent_id on folder(parent_id);
+
 select * from folder;
 select * from user;
 select * from movie_folder;
+select * from movie;
