@@ -19,6 +19,7 @@ public class MovieFolderMapper implements RowMapper<MovieFolder> {
         movie.setRuntime(rs.getInt("m.runtime"));
         movie.setDirector(rs.getString("m.director"));
         movie.setGenre(rs.getString("m.genre"));
+        movie.setPosterUrl(rs.getString("m.poster_url"));
 
         Folder folder = new Folder();
         folder.setId(rs.getInt("f.id"));
