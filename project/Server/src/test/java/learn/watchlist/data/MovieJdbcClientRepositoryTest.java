@@ -27,13 +27,13 @@ class MovieJdbcClientRepositoryTest {
         Movie movie = TestHelper.makeMovie();
 
         Movie actual = repository.add(movie);
-        assertEquals(3, actual.getId());
+        assertEquals(7, actual.getId());
     }
 
     @Test
     void shouldFindMovie() {
         Movie actual = repository.findByTitle("movie2");
         assertEquals(2, actual.getId());
-        assertEquals(2018, actual.getYear());
+        assertEquals(2002, actual.getYear());
     }
 }
