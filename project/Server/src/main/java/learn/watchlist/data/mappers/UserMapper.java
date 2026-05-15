@@ -15,7 +15,7 @@ public class UserMapper implements RowMapper<User> {
         user.setPassword(rs.getString("u.password"));
         user.setUsername(rs.getString("u.username"));
         user.setFavoriteActor(rs.getString("u.favorite_actor"));
-        user.setFavoriteMovie("u.favorite_movie");
+        user.setFavoriteMovie(rs.getString("u.favorite_movie"));
 
         return user;
     }

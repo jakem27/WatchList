@@ -15,6 +15,16 @@ public class TestHelper {
         return user;
     }
 
+    public static User makeUser2() {
+        User user = new User();
+        user.setUsername("friend");
+        user.setPassword("password2");
+        user.setFavoriteMovie("movie2");
+        user.setFavoriteActor("actor2");
+        user.setId(7);
+        return user;
+    }
+
     public static Folder makeFolder() {
         Folder folder = new Folder();
         folder.setName("test folder");

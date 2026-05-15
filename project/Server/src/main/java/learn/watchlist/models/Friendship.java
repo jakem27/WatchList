@@ -1,5 +1,7 @@
 package learn.watchlist.models;
 
+import java.util.Objects;
+
 public class Friendship {
     private int user1Id;
     private int user2Id;
@@ -35,5 +37,17 @@ public class Friendship {
 
     public void setPending(boolean pending) {
         this.pending = pending;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Friendship that = (Friendship) o;
+        return user1Id == that.user1Id && user2Id == that.user2Id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user1Id, user2Id);
     }
 }
