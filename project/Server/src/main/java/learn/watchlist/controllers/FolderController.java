@@ -1,8 +1,11 @@
 package learn.watchlist.controllers;
 
 import learn.watchlist.domain.FolderService;
+import learn.watchlist.domain.MovieFolderService;
 import learn.watchlist.domain.Result;
 import learn.watchlist.models.Folder;
+import learn.watchlist.models.Movie;
+import learn.watchlist.models.MovieFolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,16 +16,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/folder")
 public class FolderController {
-    private final FolderService service;
+    private final FolderService folderService;
+    private final MovieFolderService movieFolderService;
 
-    public FolderController(FolderService service) {
-        this.service = service;
+    public FolderController(FolderService folderService, MovieFolderService movieFolderService) {
+        this.folderService = folderService;
+        this.movieFolderService = movieFolderService;
     }
 
     @GetMapping("/root")
     public ResponseEntity<?> findRoot(Authentication auth) {
         String username = auth.getName();
-        Result<Folder> result = service.findRoot(username);
+        Result<Folder> result = folderService.findRoot(username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
@@ -34,7 +39,7 @@ public class FolderController {
     @GetMapping("/{id}/children")
     public ResponseEntity<?> findChildren(@PathVariable("id") int id, Authentication auth) {
         String username = auth.getName();
-        Result<List<Folder>> result = service.findChildren(id, username);
+        Result<List<Folder>> result = folderService.findChildren(id, username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
@@ -46,12 +51,36 @@ public class FolderController {
     @PostMapping
     public ResponseEntity<?> add(@RequestBody Folder folder, Authentication auth) {
         String username = auth.getName();
-        Result<Folder> result = service.add(folder, username);
+        Result<Folder> result = folderService.add(folder, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/movies")
+    public ResponseEntity<?> findMovies(@PathVariable("id") int id, Authentication auth) {
+        String username = auth.getName();
+        Result<List<MovieFolder>> result = movieFolderService.findByFolderId(id, username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
+    @PostMapping("/add-movie")
+    public ResponseEntity<?> addMovie(@RequestBody MovieFolder movieFolder, Authentication auth) {
+        String username = auth.getName();
+        Result<Void> result = movieFolderService.add(movieFolder, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

@@ -2,9 +2,9 @@
 
 # fetch movie from MovieRepository
 GET {{url}}/Shrek HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc3MDI1OSwiZXhwIjoxNzc4ODU2NjU5fQ.ea8gxfx-KuQyl3NI1p3TlL-wM3kWS1lbUiYFIqJrjKY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc5NDI4NiwiZXhwIjoxNzc4ODgwNjg2fQ.qstLQvSJ5FvEnisCsfn_tqtuI3EUcmxQ0mlCJ8mnUwE
+### 
 
-###
 # fetch movie from OMDB
 GET {{url}}/Spider-Man HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3ODc3MDI1OSwiZXhwIjoxNzc4ODU2NjU5fQ.ea8gxfx-KuQyl3NI1p3TlL-wM3kWS1lbUiYFIqJrjKY

@@ -33,4 +33,24 @@ create table movie(
 	genre text
 );
 
+create table movie_folder(
+	movie_id int,
+	folder_id int,
+	watched bit,
+	liked bit null,
+	constraint pk_movie_folder
+		primary key (movie_id, folder_id),
+	constraint fk_movie_folder_movie_id
+		foreign key (movie_id)
+		references movie(id),
+	constraint fk_movie_folder_folder_id
+		foreign key (folder_id)
+		references folder(id)
+);
+
+create index idx_folder_parent_id on folder(parent_id);
+
+select * from folder;
+select * from user;
+select * from movie_folder;
 select * from movie;

@@ -96,7 +96,7 @@ public class FolderService {
         return result;
     }
 
-    public User authenticate(Result<?> result, String username) {
+    private User authenticate(Result<?> result, String username) {
         User user = userRepository.findByUsername(username);
         if(user == null) {
             result.addMessage("Invalid user", ResultType.INVALID);

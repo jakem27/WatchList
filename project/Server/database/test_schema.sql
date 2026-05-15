@@ -33,11 +33,27 @@ create table movie(
 	genre text
 );
 
+create table movie_folder(
+	movie_id int,
+	folder_id int,
+	watched bit,
+	liked bit null,
+	constraint pk_movie_folder
+		primary key (movie_id, folder_id),
+	constraint fk_movie_folder_movie_id
+		foreign key (movie_id)
+		references movie(id),
+	constraint fk_movie_folder_folder_id
+		foreign key (folder_id)
+		references folder(id)
+);
+
 delimiter //
 create procedure set_known_good_state()
 begin
 	SET FOREIGN_KEY_CHECKS = 0;
 
+	delete from movie_folder;
 	delete from folder;
 	alter table folder auto_increment = 1;
 	delete from user;
@@ -52,14 +68,27 @@ begin
 	(2, "user2", "123");
 	
 	insert into movie(id, title, year, runtime, director, genre) values
-	(1, "movie1", 2001, "90 min", "director1", "action"),
-	(2, "movie2", 2018, "115 min", "director2", "comedy");
+	(1, "movie1", 2001, 90, "director1", "action"),
+	(2, "movie2", 2002, 95, "director2", "comedy"),
+	(3, "movie3", 2003, 100, "director3", "romance"),
+	(4, "movie4", 2004, 105, "director4", "sci-fi"),
+	(5, "movie5", 2005, 110, "director5", "historical"),
+	(6, "movie6", 2006, 115, "director6", "superhero");
 	
 	insert into folder(id, name, is_public, user_id, parent_id) values
 	(1, "root", 0, 1, NULL),
 	(2, "f1", 0, 1, 1),
 	(3, "f2", 0, 1, 1),
-	(4, "other", 0, 2, NULL);
+	(4, "other", 0, 2, NULL),
+	(5, "empty", 0, 2, NULL);
+	
+	insert into movie_folder(movie_id, folder_id, watched, liked) values
+	(1, 1, 0, NULL),
+	(2, 1, 0, NULL),
+	(3, 2, 0, NULL),
+	(4, 4, 0, NULL),
+	(5, 3, 0, NULL),
+	(6, 3, 0, NULL);
 	
 end //
 

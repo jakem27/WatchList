@@ -47,7 +47,6 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
 
     async function handleAdd(event) {
         event.preventDefault();
-        debugger;
 
         const folder = {
             name: newFolderName,
@@ -74,7 +73,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
     }
 
     return (
-        <div className="container">
+        <>
             <div className="d-flex justify-content-between align-items-center gap-2">
                <button 
                 className="btn btn-link p-0"
@@ -92,7 +91,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
             </button> 
             </div>
             
-            <div className="list-group">
+            <div className="list-group mt-4">
                 {folders.map(folder => 
                     <div  className={" d-flex justify-content-between align-items-center gap-2" +
                         " list-group-item list-group-item-action" + (currFolder && currFolder.name === folder.name ? " active" : "")}
@@ -127,7 +126,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                     </form>}
                     
             </div>            
-        </div>
+        </>
     )
 }
 

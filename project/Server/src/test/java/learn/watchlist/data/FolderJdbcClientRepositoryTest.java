@@ -1,5 +1,6 @@
 package learn.watchlist.data;
 
+import learn.watchlist.TestHelper;
 import learn.watchlist.models.Folder;
 import learn.watchlist.models.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,16 +27,11 @@ class FolderJdbcClientRepositoryTest {
 
     @Test
     void shouldAdd() {
-        User user = new User();
-        user.setId(1);
-        Folder folder = new Folder();
-        folder.setName("test");
-        folder.setPublic(true);
-        folder.setParentId(0);
-        folder.setUser(user);
+        Folder folder = TestHelper.makeFolder();
+        folder.getUser().setId(1);
 
         Folder actual = repository.add(folder);
-        assertEquals(5, actual.getId());
+        assertEquals(6, actual.getId());
     }
 
     @Test
