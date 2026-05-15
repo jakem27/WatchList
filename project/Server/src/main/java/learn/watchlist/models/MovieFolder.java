@@ -1,24 +1,24 @@
 package learn.watchlist.models;
 
 public class MovieFolder {
-    private int folderId;
     private Movie movie;
+    private Folder folder;
     private boolean watched;
     private boolean liked;
 
     public MovieFolder() {}
 
-    public MovieFolder(int folderId, Movie movie) {
-        this.folderId = folderId;
+    public MovieFolder(Movie movie, Folder folder) {
+        this.folder = folder;
         this.movie = movie;
     }
 
-    public int getFolderId() {
-        return folderId;
+    public Folder getFolder() {
+        return folder;
     }
 
-    public void setFolderId(int folderId) {
-        this.folderId = folderId;
+    public void setFolderId(Folder folder) {
+        this.folder = folder;
     }
 
     public Movie getMovie() {

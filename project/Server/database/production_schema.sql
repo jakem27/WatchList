@@ -47,3 +47,7 @@ create table movie_folder(
 		foreign key (folder_id)
 		references folder(id)
 );
+
+select * from folder;
+select * from user;
+select * from movie_folder;

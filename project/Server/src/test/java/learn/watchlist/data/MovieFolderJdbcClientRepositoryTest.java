@@ -1,5 +1,7 @@
 package learn.watchlist.data;
 
+import learn.watchlist.TestHelper;
+import learn.watchlist.models.Folder;
 import learn.watchlist.models.Movie;
 import learn.watchlist.models.MovieFolder;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +26,9 @@ class MovieFolderJdbcClientRepositoryTest {
     @Test
     void shouldAdd() {
         Movie movie = new Movie(1, "movie1", 2001, 90, "director1", "action");
-        MovieFolder movieFolder = new MovieFolder(4, movie);
+        Folder folder = new Folder("f1", false, TestHelper.makeUser(), 1);
+        folder.setId(2);
+        MovieFolder movieFolder = new MovieFolder(movie, folder);
 
         assertTrue(repository.add(movieFolder));
     }

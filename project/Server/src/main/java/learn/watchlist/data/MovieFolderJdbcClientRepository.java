@@ -28,7 +28,7 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
 
         return jdbcClient.sql(sql)
                 .param("movie_id", movieFolder.getMovie().getId())
-                .param("folder_id", movieFolder.getFolderId())
+                .param("folder_id", movieFolder.getFolder().getId())
                 .update() > 0;
     }
 }

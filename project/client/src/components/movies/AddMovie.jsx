@@ -31,8 +31,8 @@ function AddMovie({ currFolder }) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                folderId: currFolder.id,
-                movie: movie
+                movie: movie,
+                folder: currFolder
             })
         })
 

@@ -42,7 +42,7 @@ class MovieFolderServiceTest {
         folder.setId(1);
         User user = folder.getUser();
 
-        MovieFolder movieFolder = new MovieFolder(folder.getId(), movie);
+        MovieFolder movieFolder = new MovieFolder(movie, folder);
 
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
         when(folderRepository.findById(folder.getId())).thenReturn(folder);

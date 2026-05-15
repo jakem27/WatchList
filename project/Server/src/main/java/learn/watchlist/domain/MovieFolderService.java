@@ -32,8 +32,8 @@ public class MovieFolderService {
             return result;
         }
 
-        if(movieFolder.getFolderId() <= 0) {
-            result.addMessage("FolderId must be set", ResultType.INVALID);
+        if(movieFolder.getFolder() == null) {
+            result.addMessage("Folder is required", ResultType.INVALID);
             return result;
         }
 
@@ -47,7 +47,7 @@ public class MovieFolderService {
             return result;
         }
 
-        Folder folder = folderRepository.findById(movieFolder.getFolderId());
+        Folder folder = folderRepository.findById(movieFolder.getFolder().getId());
         if(folder == null) {
             result.addMessage("Folder does not exist", ResultType.NOT_FOUND);
             return result;
