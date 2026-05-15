@@ -16,7 +16,7 @@ public class MovieJdbcClientRepository  implements MovieRepository {
     @Override
     public Movie findByTitle(String title) {
         final String sql = """
-                select id, title, year, runtime, director, genre
+                select id, title, year, runtime, director, genre, poster_url
                 from movie
                 where title = ?;
                 """;
@@ -30,8 +30,8 @@ public class MovieJdbcClientRepository  implements MovieRepository {
     @Override
     public Movie add(Movie movie) {
         final String sql = """
-                insert into movie (title, year, runtime, director, genre)
-                values (:title, :year, :runtime, :director, :genre);
+                insert into movie (title, year, runtime, director, genre, poster_url)
+                values (:title, :year, :runtime, :director, :genre, :poster_url);
                 """;
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -42,6 +42,7 @@ public class MovieJdbcClientRepository  implements MovieRepository {
                 .param("runtime", movie.getRuntime())
                 .param("director", movie.getDirector())
                 .param("genre", movie.getGenre())
+                .param("poster_url", movie.getPosterUrl())
                 .update(keyHolder, "id");
 
         if(rowsAffected == 0) {

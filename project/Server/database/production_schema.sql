@@ -30,7 +30,8 @@ create table movie(
 	year int,
 	runtime int,
 	director text,
-	genre text
+	genre text,
+	poster_url text
 );
 
 create table movie_folder(

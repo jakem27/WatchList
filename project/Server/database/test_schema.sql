@@ -30,7 +30,8 @@ create table movie(
 	year int,
 	runtime int,
 	director text,
-	genre text
+	genre text,
+	poster_url text
 );
 
 create table movie_folder(
@@ -67,13 +68,13 @@ begin
 	(1, "user1", "password"),
 	(2, "user2", "123");
 	
-	insert into movie(id, title, year, runtime, director, genre) values
-	(1, "movie1", 2001, 90, "director1", "action"),
-	(2, "movie2", 2002, 95, "director2", "comedy"),
-	(3, "movie3", 2003, 100, "director3", "romance"),
-	(4, "movie4", 2004, 105, "director4", "sci-fi"),
-	(5, "movie5", 2005, 110, "director5", "historical"),
-	(6, "movie6", 2006, 115, "director6", "superhero");
+	insert into movie(id, title, year, runtime, director, genre, poster_url ) values
+	(1, "movie1", 2001, 90, "director1", "action", ""),
+	(2, "movie2", 2002, 95, "director2", "comedy", ""),
+	(3, "movie3", 2003, 100, "director3", "romance", ""),
+	(4, "movie4", 2004, 105, "director4", "sci-fi", ""),
+	(5, "movie5", 2005, 110, "director5", "historical", ""),
+	(6, "movie6", 2006, 115, "director6", "superhero", "");
 	
 	insert into folder(id, name, is_public, user_id, parent_id) values
 	(1, "root", 0, 1, NULL),

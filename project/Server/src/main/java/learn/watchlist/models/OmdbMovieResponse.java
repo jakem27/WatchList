@@ -21,6 +21,9 @@ public class OmdbMovieResponse {
     @JsonProperty("Response")
     private String response;
 
+    @JsonProperty("Poster")
+    private String posterUrl;
+
     public String getTitle() {
         return title;
     }
@@ -44,4 +47,6 @@ public class OmdbMovieResponse {
     public String getResponse() {
         return response;
     }
+
+    public String getPosterUrl() { return posterUrl; }
 }

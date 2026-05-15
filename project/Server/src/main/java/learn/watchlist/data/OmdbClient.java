@@ -41,6 +41,7 @@ public class OmdbClient {
         movie.setRuntime(Integer.parseInt(response.getRuntime().replace(" min", "")));
         movie.setDirector(response.getDirector());
         movie.setGenre(response.getGenre());
+        movie.setPosterUrl(response.getPosterUrl());
 
         return movie;
     }
