@@ -108,7 +108,8 @@ begin
 	(6, 3, 0, NULL);
 	
 	insert into friendship(user1_id, user2_id, pending) values
-	(1, 2, 1);
+	(1, 2, 1),
+	(2, 3, 1);
 	
 end //
 
