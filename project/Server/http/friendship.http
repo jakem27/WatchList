@@ -1,5 +1,9 @@
 @url = http://localhost:8080/api/friendship
 
 POST {{url}}/user2 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWtlbSIsImlhdCI6MTc3ODg3ODM4MywiZXhwIjoxNzc4OTY0NzgzfQ.jlGOtnTxU7Pt-G5Wm2dXPkbEFioY9a83p7WfC6Rqzdg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWtlbSIsImlhdCI6MTc3ODk4Mzk4OCwiZXhwIjoxNzc5MDcwMzg4fQ.2o9Qvvl3uTq8aKJ-hpNRSGWznCbC7kc0uHUzkrXtE6I
 
+###
+
+GET {{url}} HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWtlbSIsImlhdCI6MTc3ODk4Mzk4OCwiZXhwIjoxNzc5MDcwMzg4fQ.2o9Qvvl3uTq8aKJ-hpNRSGWznCbC7kc0uHUzkrXtE6I

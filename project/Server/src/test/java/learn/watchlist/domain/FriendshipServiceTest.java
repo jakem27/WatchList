@@ -29,10 +29,11 @@ class FriendshipServiceTest {
     void shouldAddRequest() {
         User user1 = TestHelper.makeUser();
         User user2 = TestHelper.makeUser2();
-        Friendship friendship = new Friendship(user1.getId(), user2.getId());
+        Friendship friendship = new Friendship(user1, user2);
 
         when(userRepository.findByUsername("test user")).thenReturn(user1);
         when(userRepository.findByUsername("friend")).thenReturn(user2);
+        when(friendshipRepository.findByUsers(user1.getId(), user2.getId())).thenReturn(null);
         when(friendshipRepository.addRequest(friendship)).thenReturn(true);
 
         Result<Void> result = service.addRequest("test user", "friend");
@@ -68,6 +69,55 @@ class FriendshipServiceTest {
 
         assertEquals(ResultType.INVALID, result.getType());
         assertEquals("Cannot send friend request to yourself", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotAddFriendshipAlreadyExists() {
+        User user1 = TestHelper.makeUser();
+        User user2 = TestHelper.makeUser2();
+
+        Friendship friendship = new Friendship(user1, user2);
+        friendship.setPending(false);
+
+        when(userRepository.findByUsername("test user")).thenReturn(user1);
+        when(userRepository.findByUsername("friend")).thenReturn(user2);
+        when(friendshipRepository.findByUsers(user1.getId(), user2.getId())).thenReturn(friendship);
+
+        Result<Void> result = service.addRequest("test user", "friend");
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals("Already friends with friend", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotAddPendingFriend() {
+        User user1 = TestHelper.makeUser();
+        User user2 = TestHelper.makeUser2();
+
+        Friendship friendship = new Friendship(user1, user2);
+
+        when(userRepository.findByUsername("test user")).thenReturn(user1);
+        when(userRepository.findByUsername("friend")).thenReturn(user2);
+        when(friendshipRepository.findByUsers(user1.getId(), user2.getId())).thenReturn(friendship);
+
+        Result<Void> result = service.addRequest("test user", "friend");
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals("Waiting for friend to accept friendship request", result.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotAddPendingUser() {
+        User user1 = TestHelper.makeUser();
+        User user2 = TestHelper.makeUser2();
+
+        Friendship friendship = new Friendship(user2, user1);
+
+        when(userRepository.findByUsername("test user")).thenReturn(user1);
+        when(userRepository.findByUsername("friend")).thenReturn(user2);
+        when(friendshipRepository.findByUsers(user1.getId(), user2.getId())).thenReturn(friendship);
+
+        Result<Void> result = service.addRequest("test user", "friend");
+        assertEquals(ResultType.INVALID, result.getType());
+        assertEquals("friend is already waiting for you to accept their friendship request", result.getMessages().get(0));
     }
 
 }

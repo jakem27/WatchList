@@ -3,32 +3,32 @@ package learn.watchlist.models;
 import java.util.Objects;
 
 public class Friendship {
-    private int user1Id;
-    private int user2Id;
+    private User user1;
+    private User user2;
     private boolean pending;
 
     public Friendship() {}
 
-    public Friendship(int user1Id, int user2Id) {
-        this.user1Id = user1Id;
-        this.user2Id = user2Id;
+    public Friendship(User user1, User user2) {
+        this.user1 = user1;
+        this.user2 = user2;
         this.pending = true;
     }
 
-    public int getUser1Id() {
-        return user1Id;
+    public User getUser1() {
+        return user1;
     }
 
-    public void setUser1Id(int user1Id) {
-        this.user1Id = user1Id;
+    public void setUser1(User user1) {
+        this.user1 = user1;
     }
 
-    public int getUser2Id() {
-        return user2Id;
+    public User getUser2() {
+        return user2;
     }
 
-    public void setUser2Id(int user2Id) {
-        this.user2Id = user2Id;
+    public void setUser2(User user2) {
+        this.user2 = user2;
     }
 
     public boolean isPending() {
@@ -43,11 +43,11 @@ public class Friendship {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Friendship that = (Friendship) o;
-        return user1Id == that.user1Id && user2Id == that.user2Id;
+        return Objects.equals(user1, that.user1) && Objects.equals(user2, that.user2);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user1Id, user2Id);
+        return Objects.hash(user1, user2);
     }
 }
