@@ -1,9 +1,13 @@
 @url = http://localhost:8080/api/friendship
 
-POST {{url}}/user2 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWtlbSIsImlhdCI6MTc3ODk4Mzk4OCwiZXhwIjoxNzc5MDcwMzg4fQ.2o9Qvvl3uTq8aKJ-hpNRSGWznCbC7kc0uHUzkrXtE6I
+POST {{url}}/user3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWtlbSIsImlhdCI6MTc3OTA0NDE5NiwiZXhwIjoxNzc5MTMwNTk2fQ.SGGZk69gFyE7RGCt8HlfVELphq9Ob9Gwt9vKNjkzETw
 
 ###
 
 GET {{url}} HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWtlbSIsImlhdCI6MTc3ODk4Mzk4OCwiZXhwIjoxNzc5MDcwMzg4fQ.2o9Qvvl3uTq8aKJ-hpNRSGWznCbC7kc0uHUzkrXtE6I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWtlbSIsImlhdCI6MTc3OTA0NDE5NiwiZXhwIjoxNzc5MTMwNTk2fQ.SGGZk69gFyE7RGCt8HlfVELphq9Ob9Gwt9vKNjkzETw
+
+###
+GET {{url}}/requests HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTc3OTA0NDM0MCwiZXhwIjoxNzc5MTMwNzQwfQ.lpaQrZEF4-wax_9eEa21u1RFfYVCSgIfTxwOzLfhiqc

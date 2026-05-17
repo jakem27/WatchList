@@ -4,7 +4,6 @@ import learn.watchlist.domain.FriendshipService;
 
 import learn.watchlist.domain.Result;
 import learn.watchlist.domain.ResultType;
-import learn.watchlist.models.Friendship;
 import learn.watchlist.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
