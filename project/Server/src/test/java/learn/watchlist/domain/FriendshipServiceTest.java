@@ -34,7 +34,7 @@ class FriendshipServiceTest {
         when(userRepository.findByUsername("test user")).thenReturn(user1);
         when(userRepository.findByUsername("friend")).thenReturn(user2);
         when(friendshipRepository.findByUsers(user1.getId(), user2.getId())).thenReturn(null);
-        when(friendshipRepository.addRequest(friendship)).thenReturn(true);
+        when(friendshipRepository.addRequest(user1.getId(), user2.getId())).thenReturn(true);
 
         Result<Void> result = service.addRequest("test user", "friend");
         assertTrue(result.isSuccess());

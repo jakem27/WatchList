@@ -5,6 +5,7 @@ import learn.watchlist.domain.FriendshipService;
 import learn.watchlist.domain.Result;
 import learn.watchlist.domain.ResultType;
 import learn.watchlist.models.Friendship;
+import learn.watchlist.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,7 +25,7 @@ public class FriendshipController {
     @GetMapping
     public ResponseEntity<?> findFriends(Authentication auth) {
         String username = auth.getName();
-        Result<List<Friendship>> result = service.findFriends(username);
+        Result<List<User>> result = service.findFriends(username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
@@ -35,7 +36,14 @@ public class FriendshipController {
 
     @GetMapping("/requests")
     public ResponseEntity<?> findRequests(Authentication auth) {
-        return null;
+        String username = auth.getName();
+        Result<List<User>> result = service.findRequests(username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
     @PostMapping("/{friendUsername}")

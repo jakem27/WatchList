@@ -18,8 +18,8 @@ public class FriendshipService {
         this.userRepository = userRepository;
     }
 
-    public Result<List<Friendship>> findFriends(String username) {
-        Result<List<Friendship>> result = new Result<>();
+    public Result<List<User>> findFriends(String username) {
+        Result<List<User>> result = new Result<>();
 
         User user = userRepository.findByUsername(username);
         if(user == null) {
@@ -28,6 +28,19 @@ public class FriendshipService {
         }
 
         result.setPayload(friendshipRepository.findFriends(user.getId()));
+        return result;
+    }
+
+    public Result<List<User>> findRequests(String username) {
+        Result<List<User>> result = new Result<>();
+
+        User user = userRepository.findByUsername(username);
+        if(user == null) {
+            result.addMessage("Invalid user", ResultType.INVALID);
+            return result;
+        }
+
+        result.setPayload(friendshipRepository.findRequests(user.getId()));
         return result;
     }
 
@@ -65,7 +78,7 @@ public class FriendshipService {
             return result;
         }
 
-        boolean success = friendshipRepository.addRequest(new Friendship(user, friend));
+        boolean success = friendshipRepository.addRequest(user.getId(), friend.getId());
         if(!success) {
             result.addMessage("Failed to add request", ResultType.INVALID);
         }

@@ -1,0 +1,1 @@
+// use mappers to differentiate between friends/requests

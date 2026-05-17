@@ -46,8 +46,7 @@ class FriendshipJdbcClientRepositoryTest {
 
     @Test
     void shouldAddRequest() {
-        Friendship friendship = new Friendship(user1, user3);
-        assertTrue(repository.addRequest(friendship));
+        assertTrue(repository.addRequest(1, 3));
     }
 
     @Test
@@ -64,12 +63,18 @@ class FriendshipJdbcClientRepositoryTest {
 
     @Test
     void shouldFindFriendships() {
-        List<Friendship> expected = List.of(
-                new Friendship(user1, user2),
-                new Friendship(user2, user3)
-        );
+        List<User> expected = List.of(user3);
 
-        List<Friendship> actual = repository.findFriends(2);
+        List<User> actual = repository.findFriends(2);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldFindRequests() {
+        List<User> expected = List.of(user1);
+
+        List<User> actual = repository.findRequests(2);
 
         assertEquals(expected, actual);
     }

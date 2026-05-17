@@ -9,7 +9,9 @@ import java.util.List;
 public interface FriendshipRepository {
     Friendship findByUsers(int user1Id, int user2Id);
 
-    List<Friendship> findFriends(int userId);
+    List<User> findFriends(int userId);
 
-    boolean addRequest(Friendship friendship);
+    List<User> findRequests(int userId);
+
+    boolean addRequest(int user1Id, int user2Id);
 }
