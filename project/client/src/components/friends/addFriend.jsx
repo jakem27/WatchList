@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-function addFriend() {
-    const [username, setUsername] = useState(null);
+function AddFriend() {
+    const [username, setUsername] = useState("");
 
     function handleChange(event) {
         setUsername(event.target.value);
@@ -37,4 +37,4 @@ function addFriend() {
     );
 }
 
-export default addFriend;
+export default AddFriend;
