@@ -36,7 +36,7 @@ class FolderJdbcClientRepositoryTest {
 
     @Test
     void shouldFindRoot() {
-        Folder actual = repository.findRoot("user1");
+        Folder actual = repository.findRoot(1);
 
         assertNotNull(actual);
         assertEquals("user1", actual.getUser().getUsername());
@@ -52,6 +52,17 @@ class FolderJdbcClientRepositoryTest {
         assertEquals("f2", actual.get(1).getName());
 
         actual = repository.findChildren(2);
+        assertEquals(0, actual.size());
+    }
+
+    @Test
+    void shouldFindFriendsFolders() {
+        List<Folder> actual = repository.findFriendsFolders(3);
+
+        assertEquals(1, actual.size());
+        assertEquals("other", actual.get(0).getName());
+
+        actual = repository.findFriendsFolders(1);
         assertEquals(0, actual.size());
     }
 

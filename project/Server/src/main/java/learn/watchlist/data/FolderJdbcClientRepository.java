@@ -34,11 +34,11 @@ public class FolderJdbcClientRepository implements FolderRepository {
     }
 
     @Override
-    public Folder findRoot(String username) {
-        final String sql = BASE_SQL + " where f.name = 'root' and u.username = ?";
+    public Folder findRoot(int userId) {
+        final String sql = BASE_SQL + " where f.name = 'root' and u.id = ?";
 
         return jdbcClient.sql(sql)
-                .param(username)
+                .param(userId)
                 .query(new FolderMapper())
                 .optional().orElse(null);
     }
@@ -47,7 +47,7 @@ public class FolderJdbcClientRepository implements FolderRepository {
     public List<Folder> findChildren(int folderId) {
         final String sql = """
                 select f.id, f.name, f.is_public, f.parent_id,
-                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
+                u.id, u.username
                 from folder f
                 join user u on u.id = f.user_id
                 join folder p on f.parent_id = p.id
@@ -57,6 +57,26 @@ public class FolderJdbcClientRepository implements FolderRepository {
 
         return jdbcClient.sql(sql)
                 .param(folderId)
+                .query(new FolderMapper())
+                .list();
+    }
+
+    @Override
+    public List<Folder> findFriendsFolders(int userId) {
+        final String sql = """
+                select f.id, f.name, f.is_public, f.parent_id,
+                u.id, u.username
+                from folder f
+                join user u on u.id = f.user_id
+                join friendship fs
+                on ((fs.user1_id = u.id and fs.user2_id = :id)
+                or (fs.user1_id = :id and fs.user2_id = u.id))
+                where fs.pending = 0
+                and f.is_public = 1;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("id", userId)
                 .query(new FolderMapper())
                 .list();
     }
