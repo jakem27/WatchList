@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function RequestList() {
+function RequestList({ friends, setFriends }) {
     const [requests, setRequests] = useState([]);
 
     useEffect(() => {
@@ -18,6 +18,37 @@ function RequestList() {
         doFetch();
     }, []);
 
+    async function acceptRequest(user) {
+        const response = await fetch(`http://localhost:8080/api/friendship/accept/${user.username}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        if(response.ok) {
+            setRequests(requests.filter(request => request !== user));
+            setFriends([...friends, user]);
+        }
+
+        // display errors
+    }
+
+    async function declineRequest(user) {
+        const response = await fetch(`http://localhost:8080/api/friendship/${user.username}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        });
+
+        if(response.ok) {
+            setRequests(requests.filter(request => request !== user));
+        }
+
+        // display errors
+    }
+
     return (
         <>
             <h3>Friend Requests</h3>
@@ -28,11 +59,11 @@ function RequestList() {
                                 <span>{user.username}</span>
 
                                 <div>
-                                    <button className="btn btn-success btn-sm me-2">
+                                    <button className="btn btn-success btn-sm me-2" onClick={() => acceptRequest(user)}>
                                         <i className="bi bi-check"></i>
                                     </button>
 
-                                    <button className="btn btn-danger btn-sm">
+                                    <button className="btn btn-danger btn-sm" onClick={() => declineRequest(user)}>
                                         <i className="bi bi-x"></i>
                                     </button>
                                 </div>

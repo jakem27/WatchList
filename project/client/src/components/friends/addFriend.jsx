@@ -17,6 +17,9 @@ function AddFriend() {
             }
         });
 
+        if(response.ok) {
+            setUsername("");
+        }
         // handle errors
     }
 
