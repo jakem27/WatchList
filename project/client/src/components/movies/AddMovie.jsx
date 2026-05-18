@@ -26,7 +26,7 @@ function AddMovie({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd}) {
             return;
         }
 
-        const response = await fetch(`http://localhost:8080/api/folder/add-movie`, {
+        const response = await fetch(`http://localhost:8080/api/movie`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

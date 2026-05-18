@@ -33,7 +33,7 @@ function AddFriend() {
                 value={username} 
                 required />
 
-            <button className="btn btn-primary me-2" type="submit">
+            <button className="btn btn-primary mt-2" type="submit">
                 Send Request
             </button>
         </form>

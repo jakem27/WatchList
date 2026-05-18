@@ -9,7 +9,7 @@ function MovieList({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd }) {
         }
 
         const doFetch = async () => {
-            const response = await fetch(`http://localhost:8080/api/folder/${currFolder.id}/movies`, {
+            const response = await fetch(`http://localhost:8080/api/movie/folder/${currFolder.id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

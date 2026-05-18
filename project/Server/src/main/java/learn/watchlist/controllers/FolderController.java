@@ -17,11 +17,9 @@ import java.util.List;
 @RequestMapping("/api/folder")
 public class FolderController {
     private final FolderService folderService;
-    private final MovieFolderService movieFolderService;
 
-    public FolderController(FolderService folderService, MovieFolderService movieFolderService) {
+    public FolderController(FolderService folderService) {
         this.folderService = folderService;
-        this.movieFolderService = movieFolderService;
     }
 
     @GetMapping("/root")
@@ -58,29 +56,5 @@ public class FolderController {
         }
 
         return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{id}/movies")
-    public ResponseEntity<?> findMovies(@PathVariable("id") int id, Authentication auth) {
-        String username = auth.getName();
-        Result<List<MovieFolder>> result = movieFolderService.findByFolderId(id, username);
-
-        if(!result.isSuccess()) {
-            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
-    }
-
-    @PostMapping("/add-movie")
-    public ResponseEntity<?> addMovie(@RequestBody MovieFolder movieFolder, Authentication auth) {
-        String username = auth.getName();
-        Result<Void> result = movieFolderService.add(movieFolder, username);
-
-        if(!result.isSuccess()) {
-            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
