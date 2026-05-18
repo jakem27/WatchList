@@ -46,6 +46,18 @@ public class FolderController {
         return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
+    @GetMapping("/feed")
+    public ResponseEntity<?> findFriendsFolders(Authentication auth) {
+        String username = auth.getName();
+        Result<List<Folder>> result = folderService.findFriendsFolders(username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> add(@RequestBody Folder folder, Authentication auth) {
         String username = auth.getName();

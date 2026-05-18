@@ -21,12 +21,12 @@ public class FolderService {
     public Result<Folder> findRoot(String username) {
         Result<Folder> result = new Result<>();
 
-        authenticate(result, username);
+        User user = authenticate(result, username);
         if(!result.isSuccess()) {
             return result;
         }
 
-        Folder root = folderRepository.findRoot(username);
+        Folder root = folderRepository.findRoot(user.getId());
 
         result.setPayload(root);
         return result;
@@ -35,7 +35,7 @@ public class FolderService {
     public Result<List<Folder>> findChildren(int folderId, String username) {
         Result<List<Folder>> result = new Result<>();
 
-        authenticate(result,username);
+        authenticate(result, username);
         if(!result.isSuccess()) {
             return result;
         }
@@ -49,6 +49,19 @@ public class FolderService {
         List<Folder> childFolders = folderRepository.findChildren(folderId);
 
         result.setPayload(childFolders);
+        return result;
+    }
+
+    public Result<List<Folder>> findFriendsFolders(String username) {
+        Result<List<Folder>> result = new Result<>();
+
+        User user = authenticate(result, username);
+        if(!result.isSuccess()) {
+            return result;
+        }
+
+        List<Folder> folders = folderRepository.findFriendsFolders(user.getId());
+        result.setPayload(folders);
         return result;
     }
 
