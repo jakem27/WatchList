@@ -30,7 +30,7 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
                     JOIN folder_tree ft ON f.parent_id = ft.id
                 )
                 
-                SELECT m.id, m.title, m.year, m.runtime, m.director, m.genre,
+                SELECT m.id, m.title, m.year, m.runtime, m.director, m.genre, m.poster_url,
                 f.id, f.name, mf.watched, mf.liked
                 FROM movie_folder mf
                 JOIN movie m ON m.id = mf.movie_id

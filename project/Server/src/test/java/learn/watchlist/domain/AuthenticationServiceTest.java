@@ -1,5 +1,6 @@
 package learn.watchlist.domain;
 
+import learn.watchlist.data.FolderRepository;
 import learn.watchlist.data.UserRepository;
 import learn.watchlist.models.User;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ class AuthenticationServiceTest {
 
     @MockitoBean
     UserRepository repository;
+
+    @MockitoBean
+    FolderRepository folderRepository;
 
     @Test
     void shouldAdd() {

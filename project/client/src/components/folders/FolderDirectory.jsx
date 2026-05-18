@@ -104,8 +104,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                         }}
                         key = {folder.id}>
                             <span>{folder.name}</span>
-                            <button
-                                className="btn btn-link p-0"
+                            <button className="btn p-0 text-reset"
                                 onClick={(e) => {
                                     e.stopPropagation();
 

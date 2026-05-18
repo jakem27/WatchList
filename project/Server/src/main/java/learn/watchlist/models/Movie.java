@@ -7,6 +7,7 @@ public class Movie {
     private int runtime;
     private String director;
     private String genre;
+    private String posterUrl;
 
     public Movie() {}
 
@@ -66,4 +67,8 @@ public class Movie {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
+    public String getPosterUrl() { return posterUrl; }
+
+    public void setPosterUrl(String posterUrl) { this.posterUrl = posterUrl; }
 }

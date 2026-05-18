@@ -24,10 +24,10 @@ class UserJdbcClientRepositoryTest {
     @Test
     void shouldAdd() {
         User user = new User();
-        user.setUsername("user3");
+        user.setUsername("user4");
         user.setPassword("password");
         User actual = repository.create(user);
 
-        assertEquals(3, actual.getId());
+        assertEquals(4, actual.getId());
     }
 }

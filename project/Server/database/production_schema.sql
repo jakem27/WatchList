@@ -30,7 +30,8 @@ create table movie(
 	year int,
 	runtime int,
 	director text,
-	genre text
+	genre text,
+	poster_url text
 );
 
 create table movie_folder(
@@ -48,9 +49,24 @@ create table movie_folder(
 		references folder(id)
 );
 
+create table friendship( 
+	user1_id int,
+	user2_id int,
+	pending bit,
+	constraint pk_friendship
+		primary key (user1_id, user2_id),
+	constraint fk_friendship_user1
+		foreign key (user1_id)
+		references user(id),
+	constraint fk_friendship_user2
+		foreign key (user2_id)
+		references user(id)
+);
+
 create index idx_folder_parent_id on folder(parent_id);
 
 select * from folder;
 select * from user;
 select * from movie_folder;
 select * from movie;
+select * from friendship;

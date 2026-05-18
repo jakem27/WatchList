@@ -30,7 +30,8 @@ create table movie(
 	year int,
 	runtime int,
 	director text,
-	genre text
+	genre text,
+	poster_url text
 );
 
 create table movie_folder(
@@ -48,12 +49,27 @@ create table movie_folder(
 		references folder(id)
 );
 
+create table friendship( 
+	user1_id int,
+	user2_id int,
+	pending bit,
+	constraint pk_friendship
+		primary key (user1_id, user2_id),
+	constraint fk_friendship_user1
+		foreign key (user1_id)
+		references user(id),
+	constraint fk_friendship_user2
+		foreign key (user2_id)
+		references user(id)
+);
+
 delimiter //
 create procedure set_known_good_state()
 begin
 	SET FOREIGN_KEY_CHECKS = 0;
 
 	delete from movie_folder;
+	delete from friendship;
 	delete from folder;
 	alter table folder auto_increment = 1;
 	delete from user;
@@ -65,15 +81,16 @@ begin
 
 	insert into user(id, username, password) values
 	(1, "user1", "password"),
-	(2, "user2", "123");
+	(2, "user2", "123"),
+	(3, "user3", "asdf");
 	
-	insert into movie(id, title, year, runtime, director, genre) values
-	(1, "movie1", 2001, 90, "director1", "action"),
-	(2, "movie2", 2002, 95, "director2", "comedy"),
-	(3, "movie3", 2003, 100, "director3", "romance"),
-	(4, "movie4", 2004, 105, "director4", "sci-fi"),
-	(5, "movie5", 2005, 110, "director5", "historical"),
-	(6, "movie6", 2006, 115, "director6", "superhero");
+	insert into movie(id, title, year, runtime, director, genre, poster_url ) values
+	(1, "movie1", 2001, 90, "director1", "action", ""),
+	(2, "movie2", 2002, 95, "director2", "comedy", ""),
+	(3, "movie3", 2003, 100, "director3", "romance", ""),
+	(4, "movie4", 2004, 105, "director4", "sci-fi", ""),
+	(5, "movie5", 2005, 110, "director5", "historical", ""),
+	(6, "movie6", 2006, 115, "director6", "superhero", "");
 	
 	insert into folder(id, name, is_public, user_id, parent_id) values
 	(1, "root", 0, 1, NULL),
@@ -89,6 +106,10 @@ begin
 	(4, 4, 0, NULL),
 	(5, 3, 0, NULL),
 	(6, 3, 0, NULL);
+	
+	insert into friendship(user1_id, user2_id, pending) values
+	(1, 2, 1),
+	(2, 3, 0);
 	
 end //
 

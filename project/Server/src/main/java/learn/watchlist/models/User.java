@@ -1,5 +1,7 @@
 package learn.watchlist.models;
 
+import java.util.Objects;
+
 public class User {
     private int id;
     private String username;
@@ -47,5 +49,17 @@ public class User {
 
     public void setFavoriteActor(String favoriteActor) {
         this.favoriteActor = favoriteActor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(favoriteMovie, user.favoriteMovie) && Objects.equals(favoriteActor, user.favoriteActor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, favoriteMovie, favoriteActor);
     }
 }

@@ -3,6 +3,7 @@ import Layout from "./Layout";
 import UserForm from "./users/UserForm";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyWatchList from "./MyWatchList";
+import FriendsPage from "./friends/friendsPage";
 
 function AppRouter() {
 
@@ -26,6 +27,10 @@ function AppRouter() {
                 {
                     path: "/watchlist",
                     element: <MyWatchList />
+                },
+                {
+                    path: "/friends",
+                    element: <FriendsPage />
                 }
             ]
         }
