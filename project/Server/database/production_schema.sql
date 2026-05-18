@@ -69,3 +69,4 @@ select * from folder;
 select * from user;
 select * from movie_folder;
 select * from movie;
+select * from friendship;

@@ -58,4 +58,32 @@ public class FriendshipController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PutMapping("/accept/{friendUsername}")
+    public ResponseEntity<?> acceptRequest(@PathVariable("friendUsername") String friendUsername, Authentication auth) {
+        String username = auth.getName();
+        Result<Void> result = service.acceptRequest(username, friendUsername);
+
+        if(result.getType() == ResultType.NOT_FOUND) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.NOT_FOUND);
+        } else if(result.getType() == ResultType.INVALID) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{friendUsername}")
+    public ResponseEntity<?> deleteFriendship(@PathVariable("friendUsername") String friendUsername, Authentication auth) {
+        String username = auth.getName();
+        Result<Void> result = service.delete(username, friendUsername);
+
+        if(result.getType() == ResultType.NOT_FOUND) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.NOT_FOUND);
+        } else if(result.getType() == ResultType.INVALID) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

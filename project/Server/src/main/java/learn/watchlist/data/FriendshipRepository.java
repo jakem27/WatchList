@@ -14,4 +14,8 @@ public interface FriendshipRepository {
     List<User> findRequests(int userId);
 
     boolean addRequest(int user1Id, int user2Id);
+
+    boolean acceptRequest(int user1Id, int user2Id);
+
+    boolean delete(int user1Id, int user2Id);
 }

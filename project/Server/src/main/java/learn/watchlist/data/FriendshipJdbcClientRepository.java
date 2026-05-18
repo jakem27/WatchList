@@ -89,4 +89,32 @@ public class FriendshipJdbcClientRepository implements FriendshipRepository{
                 .param("user2_id", user2Id)
                 .update() > 0;
     }
+
+    @Override
+    public boolean acceptRequest(int user1Id, int user2Id) {
+        final String sql = """
+                update friendship
+                set pending = 0
+                where user1_id = :user1_id and user2_id = :user2_id;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("user1_id", user1Id)
+                .param("user2_id", user2Id)
+                .update() > 0;
+    }
+
+    @Override
+    public boolean delete(int user1Id, int user2Id) {
+        final String sql = """
+                delete from friendship
+                where (user1_id = :user1_id and user2_id = :user2_id)
+                or (user1_id = :user2_id and user2_id = :user1_id);
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("user1_id", user1Id)
+                .param("user2_id", user2Id)
+                .update() > 0;
+    }
 }
