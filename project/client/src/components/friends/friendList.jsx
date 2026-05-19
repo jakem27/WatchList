@@ -39,7 +39,11 @@ function FriendList({friends, setFriends}) {
                 {friends.map(user => (
                     <div className="card shadow-sm" key={user.id}>
                         <div className="card-body d-flex justify-content-between align-items-center">
-                            <span>{user.username}</span>
+                            <div>
+                                <i className="bi bi-person-circle me-2"></i>
+                                <span>{user.username}</span>
+                            </div>
+                            
 
                             <button className="btn btn-danger btn-sm" onClick={() => deleteFriend(user)}>
                                 <i className="bi bi-x"></i>

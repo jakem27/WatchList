@@ -26,11 +26,11 @@ function AddMovie({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd}) {
             return;
         }
 
-        const response = await fetch(`http://localhost:8080/api/movie`, {
+        const response = await fetch('http://localhost:8080/api/movie', {
             method: "POST",
             headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 movie: currMovie,
@@ -50,10 +50,7 @@ function AddMovie({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd}) {
                 Search Movie
             </h3>
 
-            <form
-                onSubmit={handleSearch}
-                className="d-flex gap-2 mb-3"
-            >
+            <form onSubmit={handleSearch} className="d-flex gap-2 mb-3">
                 <input
                     id="movieTitle"
                     className="form-control"

@@ -4,7 +4,8 @@ import UserForm from "./users/UserForm";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyWatchList from "./MyWatchList";
 import FriendsPage from "./friends/friendsPage";
-import FolderFeed from "./folders/FolderFeed";
+import FolderFeed from "./feed/Feed";
+import FriendWatchList from "./feed/FriendWatchList";
 
 function AppRouter() {
 
@@ -36,6 +37,10 @@ function AppRouter() {
                 {
                     path: "/feed",
                     element: <FolderFeed />
+                },
+                {
+                    path: "/friend-watchlist",
+                    element: <FriendWatchList />
                 }
             ]
         }

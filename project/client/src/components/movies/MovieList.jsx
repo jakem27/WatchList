@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function MovieList({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd }) {
+function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd, setCanAdd }) {
     const [movieFolders, setMovieFolders] = useState([]);
 
     useEffect(() => {
@@ -28,11 +28,43 @@ function MovieList({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd }) {
         setCanAdd(false);
     }
 
+    async function togglePublic(event) {
+        const isPublic = event.target.checked;
+
+        const response = await fetch(`http://localhost:8080/api/folder/${currFolder.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({
+                ...currFolder,
+                public: isPublic
+            })
+        });
+
+        if(response.ok) {
+            setCurrFolder({
+                ...currFolder,
+                public: isPublic
+            });
+        }
+    }
+
     return (
         <>
             {currFolder !== null && 
                     <div className="d-flex justify-content-between align-items-center gap-2">
                         <h3>{currFolder.name !== "root" ? currFolder.name : "My WatchList"}</h3>
+                        <div className="form-check form-switch">
+                            <label className="form-check-label" htmlFor="publicSwitch">Public</label>
+                            <input 
+                                className="form-check-input" 
+                                type="checkbox" role="switch" 
+                                id="publicSwitch" 
+                                checked={currFolder.public}
+                                onChange={togglePublic}/>
+                        </div>
                     </div>
             }
 
