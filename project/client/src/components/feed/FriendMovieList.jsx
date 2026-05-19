@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function FriendMovieList({ folder, setMovie }) {
     const [movieFolders, setMovieFolders] = useState([]);
@@ -21,7 +22,10 @@ function FriendMovieList({ folder, setMovie }) {
 
     return (
         <>
-            <div className="d-flex">
+            <div className="d-flex align-items-center gap-2">
+                <Link id="link" to="/feed">
+                    <i className="bi bi-arrow-left fs-4"></i>
+                </Link>
                 <h3>{`${folder.name} by @${folder.user.username}`}</h3>
             </div>
 

@@ -83,11 +83,11 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                     setCurrFolder(parentFolder);
                 }}
             >
-                <i className="bi bi-arrow-left"></i>
+                <i className="bi bi-arrow-left fs-4"></i>
             </button>
             <h3 className="mb-0">{!parentFolder || parentFolder.name === "root" ? "My WatchList" : parentFolder.name}</h3>
             <button className="btn btn-link p-0" onClick={() => setShowForm(true)}>
-                <i className="bi bi-plus"></i>    
+                <i className="bi bi-plus fs-4"></i>    
             </button> 
             </div>
             
@@ -112,7 +112,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                                     setCurrFolder(folder);
                                 }}
                             >
-                                <i className="bi bi-arrow-right"></i>
+                                <i className="bi bi-arrow-right fs-4"></i>
                             </button>
                     </div>)}
                 {showForm && 
