@@ -44,6 +44,13 @@ class FolderJdbcClientRepositoryTest {
     }
 
     @Test
+    void shouldFindAllByUser() {
+        List<Folder> actual = repository.findAllByUser(1);
+
+        assertEquals(3, actual.size());
+    }
+
+    @Test
     void shouldFindChildren() {
         List<Folder> actual = repository.findChildren(1);
 

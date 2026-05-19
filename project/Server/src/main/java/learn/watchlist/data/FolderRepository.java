@@ -11,7 +11,11 @@ public interface FolderRepository {
 
     List<Folder> findChildren(int folderId);
 
+    List<Folder> findAllByUser(int userId);
+
     List<Folder> findFriendsFolders(int userId);
 
     Folder add(Folder folder);
+
+    boolean update(Folder folder);
 }

@@ -14,7 +14,7 @@ public class FolderJdbcClientRepository implements FolderRepository {
 
     private final String BASE_SQL = """
                 select f.id, f.name, f.is_public, f.parent_id,
-                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
+                u.id, u.username
                 from folder f
                 join user u on u.id = f.user_id
                 """;
@@ -41,6 +41,16 @@ public class FolderJdbcClientRepository implements FolderRepository {
                 .param(userId)
                 .query(new FolderMapper())
                 .optional().orElse(null);
+    }
+
+    @Override
+    public List<Folder> findAllByUser(int userId) {
+        final String sql = BASE_SQL + " where u.id = ?";
+
+        return jdbcClient.sql(sql)
+                .param(userId)
+                .query(new FolderMapper())
+                .list();
     }
 
     @Override
@@ -104,5 +114,20 @@ public class FolderJdbcClientRepository implements FolderRepository {
         folder.setId(keyHolder.getKey().intValue());
         folder.getUser().setPassword("");
         return folder;
+    }
+
+    @Override
+    public boolean update(Folder folder) {
+        final String sql = """
+                update folder
+                set is_public = :is_public, name = :name
+                where id = :id;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("is_public", folder.isPublic())
+                .param("name", folder.getName())
+                .param("id", folder.getId())
+                .update() > 0;
     }
 }
