@@ -45,6 +45,23 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
     }
 
     @Override
+    public List<MovieFolder> findByUserId(int userId) {
+        final String sql = """
+                SELECT m.id, m.title, m.year, m.runtime, m.director, m.genre, m.poster_url,
+                f.id, f.name, mf.watched, mf.liked
+                FROM movie_folder mf
+                JOIN movie m ON m.id = mf.movie_id
+                JOIN folder f ON f.id = mf.folder_id
+                JOIN user u ON u.id = f.user_id;
+                WHERE u.id = ?;
+                """;
+        return jdbcClient.sql(sql)
+                .param(userId)
+                .query(new MovieFolderMapper())
+                .list();
+    }
+
+    @Override
     public boolean add(MovieFolder movieFolder) {
         final String sql = """
                 insert into movie_folder(movie_id, folder_id, watched, liked)
@@ -60,17 +77,16 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
     @Override
     public boolean update(MovieFolder movieFolder) {
         final String sql = """
-                update movie_folder mf
-                join folder f on f.id = mf.folder_id
-                set mf.watched = :watched, mf.liked = :liked
-                where mf.movie_id = :movie_id and f.user_id = :user_id;
+                update movie_folder
+                set watched = :watched, liked = :liked
+                where movie_id = :movie_id and folder_id = :folder_id;
                 """;
 
         return jdbcClient.sql(sql)
                 .param("watched", movieFolder.isWatched())
                 .param("liked", movieFolder.isLiked())
                 .param("movie_id", movieFolder.getMovie().getId())
-                .param("user_id", movieFolder.getFolder().getUser().getId())
+                .param("folder_id", movieFolder.getFolder().getId())
                 .update() > 0;
     }
 }

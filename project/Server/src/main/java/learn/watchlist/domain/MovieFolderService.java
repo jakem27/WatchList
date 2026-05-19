@@ -69,7 +69,7 @@ public class MovieFolderService {
             return result;
         }
 
-        authenticateUser(result, username);
+        User user = authenticateUser(result, username);
         if(!result.isSuccess()) {
             return result;
         }
@@ -79,7 +79,7 @@ public class MovieFolderService {
             result.addMessage("Folder does not exist", ResultType.NOT_FOUND);
             return result;
         }
-        if(!username.equals(folder.getUser().getUsername())) {
+        if(user.getId() != folder.getUser().getId()) {
             result.addMessage("Cannot add movie to someone else's folder", ResultType.INVALID);
             return result;
         }
@@ -88,6 +88,13 @@ public class MovieFolderService {
         if(movie == null) {
             result.addMessage("Movie not found", ResultType.NOT_FOUND);
             return result;
+        }
+
+        List<MovieFolder> existing = movieFolderRepository.findByUserId(user.getId());
+        for(MovieFolder mf : existing) {
+            if(mf.getMovie().getId() == movie.getId()) {
+                result.addMessage(movie.getTitle() + " is already in your WatchList", ResultType.INVALID);
+            }
         }
 
         boolean success = movieFolderRepository.add(movieFolder);
