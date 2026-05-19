@@ -82,7 +82,7 @@ public class FolderController {
         return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody Folder folder, Authentication auth) {
         String username = auth.getName();
         Result<Void> result = folderService.update(folder, username);

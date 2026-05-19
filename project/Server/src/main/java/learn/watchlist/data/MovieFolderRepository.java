@@ -7,5 +7,9 @@ import java.util.List;
 public interface MovieFolderRepository {
     List<MovieFolder> findByFolderId(int folderId);
 
+    List<MovieFolder> findByUserId(int userId);
+
     boolean add(MovieFolder movieFolder);
+
+    boolean update(MovieFolder movieFolder);
 }

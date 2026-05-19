@@ -69,7 +69,7 @@ public class MovieFolderService {
             return result;
         }
 
-        authenticateUser(result, username);
+        User user = authenticateUser(result, username);
         if(!result.isSuccess()) {
             return result;
         }
@@ -79,7 +79,7 @@ public class MovieFolderService {
             result.addMessage("Folder does not exist", ResultType.NOT_FOUND);
             return result;
         }
-        if(!username.equals(folder.getUser().getUsername())) {
+        if(user.getId() != folder.getUser().getId()) {
             result.addMessage("Cannot add movie to someone else's folder", ResultType.INVALID);
             return result;
         }
@@ -90,10 +90,60 @@ public class MovieFolderService {
             return result;
         }
 
+        List<MovieFolder> existing = movieFolderRepository.findByUserId(user.getId());
+        for(MovieFolder mf : existing) {
+            if(mf.getMovie().getId() == movie.getId()) {
+                result.addMessage(movie.getTitle() + " is already in your WatchList", ResultType.INVALID);
+            }
+        }
+
         boolean success = movieFolderRepository.add(movieFolder);
         if(!success) {
             result.addMessage("Failed to add", ResultType.INVALID);
         }
+        return result;
+    }
+
+    public Result<Void> update(MovieFolder movieFolder, String username) {
+        Result<Void> result = new Result<>();
+        User user = authenticateUser(result, username);
+        if(!result.isSuccess()) {
+            return result;
+        }
+
+        if(movieFolder == null) {
+            result.addMessage("MovieFolder is required", ResultType.INVALID);
+            return result;
+        }
+
+        if(movieFolder.getMovie() == null) {
+            result.addMessage("Movie is required", ResultType.INVALID);
+            return result;
+        }
+
+        if(movieFolder.getFolder() == null) {
+            result.addMessage("Folder is required", ResultType.INVALID);
+            return result;
+        }
+
+        Folder folder = folderRepository.findById(movieFolder.getFolder().getId());
+        if(folder == null) {
+            result.addMessage("Folder does not exist", ResultType.INVALID);
+            return result;
+        }
+
+        if(user.getId() != folder.getUser().getId()) {
+            result.addMessage("Cannot edit someone else's folder", ResultType.INVALID);
+            return result;
+        }
+
+        movieFolder.setFolder(folder);
+
+        boolean success = movieFolderRepository.update(movieFolder);
+        if(!success) {
+            result.addMessage("Failed to update MovieFolder", ResultType.INVALID);
+        }
+
         return result;
     }
 

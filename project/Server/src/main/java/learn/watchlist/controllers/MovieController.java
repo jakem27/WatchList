@@ -59,4 +59,16 @@ public class MovieController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PutMapping
+    public ResponseEntity<?> updateMovieFolder(@RequestBody MovieFolder movieFolder, Authentication auth) {
+        String username = auth.getName();
+        Result<Void> result = movieFolderService.update(movieFolder, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
