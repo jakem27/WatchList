@@ -31,7 +31,7 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
     async function togglePublic(event) {
         const isPublic = event.target.checked;
 
-        const response = await fetch(`http://localhost:8080/api/folder/${currFolder.id}`, {
+        const response = await fetch(`http://localhost:8080/api/folder`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -48,6 +48,37 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
                 ...currFolder,
                 public: isPublic
             });
+        }
+    }
+
+    async function updateMF(event, mf) {
+        let name = event.target.name;
+        let value;
+        if(name.startsWith("liked")) {
+            name = "liked"
+            value = event.target.value === "true";
+        } else {
+            value = event.target.checked;
+        }
+
+        const response = await fetch(`http://localhost:8080/api/movie`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({...mf, [name]: value})
+        });
+        
+        if(response.ok) {
+            setMovieFolders(prev => 
+                prev.map(movieFolder => {
+                    if(movieFolder.movie.id === mf.movie.id && movieFolder.folder.id === mf.folder.id) {
+                        return {...movieFolder, [name]: value}
+                    }
+                    return movieFolder;
+                })
+            );
         }
     }
 
@@ -90,11 +121,47 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
                                     </div>
                                 </div>
 
-                                
+                                <div className="d-flex flex-column justify-content-center">
+                                    <div className="form-check">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox" 
+                                            checked={mf.watched} 
+                                            onChange={(e) => updateMF(e, mf)}
+                                            name="watched"
+                                            id={`watchedCheck-${mf.movie.id}`}/>
+                                        <label className="form-check-label" htmlFor={`watchedCheck-${mf.movie.id}`}>Watched</label>
+                                    </div>
 
-                                <div className="d-flex align-items-center gap-2">
-                                    watched
+                                    {mf.watched === true && 
+                                        <div className="d-flex align-items-center gap-1">
+                                                <input
+                                                    className="btn-check"
+                                                    type="radio"
+                                                    value="true"
+                                                    checked={mf.liked === true}
+                                                    onChange={(e) => updateMF(e, mf)}
+                                                    name={`liked-${mf.movie.id}`}
+                                                    id={`liked-yes-${mf.movie.id}`}/>
+                                                <label className="btn btn-outline-success" htmlFor={`liked-yes-${mf.movie.id}`}>
+                                                    <i className="bi bi-hand-thumbs-up-fill"></i>
+                                                </label>
+                    
+                                                <input
+                                                    className="btn-check"
+                                                    type="radio"
+                                                    value="false"
+                                                    checked={mf.liked === false}
+                                                    onChange={(e) => updateMF(e, mf)}
+                                                    name={`liked-${mf.movie.id}`}
+                                                    id={`liked-no-${mf.movie.id}`}/>
+                                                <label className="btn btn-outline-danger" htmlFor={`liked-no-${mf.movie.id}`}>
+                                                    <i className="bi bi-hand-thumbs-down-fill"></i>
+                                                </label>
+                                        </div>
+                                    }
                                 </div>
+                                
                             </div>
 
                         </div>
