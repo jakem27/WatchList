@@ -34,6 +34,18 @@ public class FolderController {
         return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> findAllByUser(Authentication auth) {
+        String username = auth.getName();
+        Result<List<Folder>> result = folderService.findAllByUser(username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}/children")
     public ResponseEntity<?> findChildren(@PathVariable("id") int id, Authentication auth) {
         String username = auth.getName();
@@ -68,5 +80,17 @@ public class FolderController {
         }
 
         return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody Folder folder, Authentication auth) {
+        String username = auth.getName();
+        Result<Void> result = folderService.update(folder, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
