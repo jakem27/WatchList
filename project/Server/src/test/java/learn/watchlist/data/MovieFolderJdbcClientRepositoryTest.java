@@ -53,4 +53,9 @@ class MovieFolderJdbcClientRepositoryTest {
         assertEquals(0, fromEmpty.size());
     }
 
+    @Test
+    void shouldUpdate() {
+
+    }
+
 }

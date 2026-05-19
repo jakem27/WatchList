@@ -97,6 +97,49 @@ public class MovieFolderService {
         return result;
     }
 
+    public Result<Void> update(MovieFolder movieFolder, String username) {
+        Result<Void> result = new Result<>();
+        User user = authenticateUser(result, username);
+        if(!result.isSuccess()) {
+            return result;
+        }
+
+        if(movieFolder == null) {
+            result.addMessage("MovieFolder is required", ResultType.INVALID);
+            return result;
+        }
+
+        if(movieFolder.getMovie() == null) {
+            result.addMessage("Movie is required", ResultType.INVALID);
+            return result;
+        }
+
+        if(movieFolder.getFolder() == null) {
+            result.addMessage("Folder is required", ResultType.INVALID);
+            return result;
+        }
+
+        Folder folder = folderRepository.findById(movieFolder.getFolder().getId());
+        if(folder == null) {
+            result.addMessage("Folder does not exist", ResultType.INVALID);
+            return result;
+        }
+
+        if(user.getId() != folder.getUser().getId()) {
+            result.addMessage("Cannot edit someone else's folder", ResultType.INVALID);
+            return result;
+        }
+
+        movieFolder.setFolder(folder);
+
+        boolean success = movieFolderRepository.update(movieFolder);
+        if(!success) {
+            result.addMessage("Failed to update MovieFolder", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
     private User authenticateUser(Result<?> result, String username) {
         User user = userRepository.findByUsername(username);
         if(user == null) {

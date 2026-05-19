@@ -56,4 +56,21 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
                 .param("folder_id", movieFolder.getFolder().getId())
                 .update() > 0;
     }
+
+    @Override
+    public boolean update(MovieFolder movieFolder) {
+        final String sql = """
+                update movie_folder mf
+                join folder f on f.id = mf.folder_id
+                set mf.watched = :watched, mf.liked = :liked
+                where mf.movie_id = :movie_id and f.user_id = :user_id;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("watched", movieFolder.isWatched())
+                .param("liked", movieFolder.isLiked())
+                .param("movie_id", movieFolder.getMovie().getId())
+                .param("user_id", movieFolder.getFolder().getUser().getId())
+                .update() > 0;
+    }
 }
