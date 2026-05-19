@@ -27,7 +27,7 @@ class MovieFolderJdbcClientRepositoryTest {
 
     @Test
     void shouldAdd() {
-        Movie movie = new Movie(1, "movie1", 2001, 90, "director1", "action");
+        Movie movie = new Movie(1, "movie1", 2001, 90, "director1", "action", "description");
         Folder folder = new Folder("f1", false, TestHelper.makeUser(), 1);
         folder.setId(2);
         MovieFolder movieFolder = new MovieFolder(movie, folder);

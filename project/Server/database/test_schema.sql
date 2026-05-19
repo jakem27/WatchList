@@ -85,7 +85,7 @@ begin
 	(2, "user2", "123"),
 	(3, "user3", "asdf");
 	
-	insert into movie(id, title, year, runtime, director, genre, poster_url ) values
+	insert into movie(id, title, year, runtime, director, genre, description, poster_url ) values
 	(1, "movie1", 2001, 90, "director1", "action", "action movie", ""),
 	(2, "movie2", 2002, 95, "director2", "comedy", "comedy movie", ""),
 	(3, "movie3", 2003, 100, "director3", "romance", "romance movie", ""),
@@ -106,8 +106,7 @@ begin
 	(3, 2, 0, NULL),
 	(4, 4, 0, NULL),
 	(5, 3, 0, NULL),
-	(6, 3, 0, NULL),
-	(1, 2, 0, NULL);
+	(6, 3, 0, NULL);
 	
 	insert into friendship(user1_id, user2_id, pending) values
 	(1, 2, 1),
