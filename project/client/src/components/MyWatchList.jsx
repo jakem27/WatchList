@@ -24,6 +24,7 @@ function MyWatchList() {
             <div className="col-4 d-flex flex-column h-100">
                 <MovieList 
                     currFolder={currFolder} 
+                    setCurrFolder={setCurrFolder}
                     currMovie={currMovie} 
                     setCurrMovie={setCurrMovie} 
                     canAdd={canAdd}

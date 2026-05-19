@@ -38,6 +38,12 @@ function Nav() {
                         </li>
 
                         <li className="nav-item">
+                            <NavLink id="link" className="nav-link" to="/feed">
+                                Feed
+                            </NavLink>
+                        </li>
+
+                        <li className="nav-item">
                             <NavLink id="link" className="nav-link" to="/friends">
                                 Friends
                             </NavLink>

@@ -17,17 +17,27 @@ import java.util.List;
 @RequestMapping("/api/folder")
 public class FolderController {
     private final FolderService folderService;
-    private final MovieFolderService movieFolderService;
 
-    public FolderController(FolderService folderService, MovieFolderService movieFolderService) {
+    public FolderController(FolderService folderService) {
         this.folderService = folderService;
-        this.movieFolderService = movieFolderService;
     }
 
     @GetMapping("/root")
     public ResponseEntity<?> findRoot(Authentication auth) {
         String username = auth.getName();
         Result<Folder> result = folderService.findRoot(username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> findAllByUser(Authentication auth) {
+        String username = auth.getName();
+        Result<List<Folder>> result = folderService.findAllByUser(username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
@@ -48,6 +58,18 @@ public class FolderController {
         return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
+    @GetMapping("/feed")
+    public ResponseEntity<?> findFriendsFolders(Authentication auth) {
+        String username = auth.getName();
+        Result<List<Folder>> result = folderService.findFriendsFolders(username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> add(@RequestBody Folder folder, Authentication auth) {
         String username = auth.getName();
@@ -60,27 +82,15 @@ public class FolderController {
         return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}/movies")
-    public ResponseEntity<?> findMovies(@PathVariable("id") int id, Authentication auth) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody Folder folder, Authentication auth) {
         String username = auth.getName();
-        Result<List<MovieFolder>> result = movieFolderService.findByFolderId(id, username);
+        Result<Void> result = folderService.update(folder, username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
-    }
-
-    @PostMapping("/add-movie")
-    public ResponseEntity<?> addMovie(@RequestBody MovieFolder movieFolder, Authentication auth) {
-        String username = auth.getName();
-        Result<Void> result = movieFolderService.add(movieFolder, username);
-
-        if(!result.isSuccess()) {
-            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -96,7 +96,7 @@ begin
 	(1, "root", 0, 1, NULL),
 	(2, "f1", 0, 1, 1),
 	(3, "f2", 0, 1, 1),
-	(4, "other", 0, 2, NULL),
+	(4, "other", 1, 2, NULL),
 	(5, "empty", 0, 2, NULL);
 	
 	insert into movie_folder(movie_id, folder_id, watched, liked) values

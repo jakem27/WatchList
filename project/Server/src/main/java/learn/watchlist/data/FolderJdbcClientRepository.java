@@ -14,7 +14,7 @@ public class FolderJdbcClientRepository implements FolderRepository {
 
     private final String BASE_SQL = """
                 select f.id, f.name, f.is_public, f.parent_id,
-                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
+                u.id, u.username
                 from folder f
                 join user u on u.id = f.user_id
                 """;
@@ -34,20 +34,30 @@ public class FolderJdbcClientRepository implements FolderRepository {
     }
 
     @Override
-    public Folder findRoot(String username) {
-        final String sql = BASE_SQL + " where f.name = 'root' and u.username = ?";
+    public Folder findRoot(int userId) {
+        final String sql = BASE_SQL + " where f.name = 'root' and u.id = ?";
 
         return jdbcClient.sql(sql)
-                .param(username)
+                .param(userId)
                 .query(new FolderMapper())
                 .optional().orElse(null);
+    }
+
+    @Override
+    public List<Folder> findAllByUser(int userId) {
+        final String sql = BASE_SQL + " where u.id = ?";
+
+        return jdbcClient.sql(sql)
+                .param(userId)
+                .query(new FolderMapper())
+                .list();
     }
 
     @Override
     public List<Folder> findChildren(int folderId) {
         final String sql = """
                 select f.id, f.name, f.is_public, f.parent_id,
-                u.id, u.username, u.password, u.favorite_movie, u.favorite_actor
+                u.id, u.username
                 from folder f
                 join user u on u.id = f.user_id
                 join folder p on f.parent_id = p.id
@@ -57,6 +67,26 @@ public class FolderJdbcClientRepository implements FolderRepository {
 
         return jdbcClient.sql(sql)
                 .param(folderId)
+                .query(new FolderMapper())
+                .list();
+    }
+
+    @Override
+    public List<Folder> findFriendsFolders(int userId) {
+        final String sql = """
+                select f.id, f.name, f.is_public, f.parent_id,
+                u.id, u.username
+                from folder f
+                join user u on u.id = f.user_id
+                join friendship fs
+                on ((fs.user1_id = u.id and fs.user2_id = :id)
+                or (fs.user1_id = :id and fs.user2_id = u.id))
+                where fs.pending = 0
+                and f.is_public = 1;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("id", userId)
                 .query(new FolderMapper())
                 .list();
     }
@@ -84,5 +114,20 @@ public class FolderJdbcClientRepository implements FolderRepository {
         folder.setId(keyHolder.getKey().intValue());
         folder.getUser().setPassword("");
         return folder;
+    }
+
+    @Override
+    public boolean update(Folder folder) {
+        final String sql = """
+                update folder
+                set is_public = :is_public, name = :name
+                where id = :id;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("is_public", folder.isPublic())
+                .param("name", folder.getName())
+                .param("id", folder.getId())
+                .update() > 0;
     }
 }
