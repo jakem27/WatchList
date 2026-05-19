@@ -52,7 +52,7 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
                 FROM movie_folder mf
                 JOIN movie m ON m.id = mf.movie_id
                 JOIN folder f ON f.id = mf.folder_id
-                JOIN user u ON u.id = f.user_id;
+                JOIN user u ON u.id = f.user_id
                 WHERE u.id = ?;
                 """;
         return jdbcClient.sql(sql)
