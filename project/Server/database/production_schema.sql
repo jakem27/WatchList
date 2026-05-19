@@ -31,6 +31,7 @@ create table movie(
 	runtime int,
 	director text,
 	genre text,
+	description text,
 	poster_url text
 );
 
@@ -70,3 +71,5 @@ select * from user;
 select * from movie_folder;
 select * from movie;
 select * from friendship;
+
+delete from movie_folder where movie_id = 7 and folder_id = 13;
