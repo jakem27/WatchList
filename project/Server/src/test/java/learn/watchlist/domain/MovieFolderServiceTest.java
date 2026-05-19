@@ -105,7 +105,7 @@ class MovieFolderServiceTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
         when(folderRepository.findById(folder.getId())).thenReturn(folder);
         when(movieRepository.findByTitle(movie.getTitle())).thenReturn(movie);
-        when(movieFolderRepository.findByUserId(user.getId())).thenReturn(List.of());
+        when(movieFolderRepository.findByUserIdMovieId(user.getId(), movie.getId())).thenReturn(null);
         when(movieFolderRepository.add(movieFolder)).thenReturn(true);
 
         Result<Void> result = service.add(movieFolder, user.getUsername());
@@ -126,7 +126,7 @@ class MovieFolderServiceTest {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
         when(folderRepository.findById(folder.getId())).thenReturn(folder);
         when(movieRepository.findByTitle(movie.getTitle())).thenReturn(movie);
-        when(movieFolderRepository.findByUserId(user.getId())).thenReturn(List.of(new MovieFolder(movie, folder2)));
+        when(movieFolderRepository.findByUserIdMovieId(user.getId(), movie.getId())).thenReturn(new MovieFolder(movie, folder2));
 
         Result<Void> result = service.add(movieFolder, user.getUsername());
         assertEquals(ResultType.INVALID, result.getType());

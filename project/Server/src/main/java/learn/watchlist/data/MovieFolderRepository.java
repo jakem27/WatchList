@@ -7,7 +7,7 @@ import java.util.List;
 public interface MovieFolderRepository {
     List<MovieFolder> findByFolderId(int folderId);
 
-    List<MovieFolder> findByUserId(int userId);
+    MovieFolder findByUserIdMovieId(int userId, int movieId);
 
     boolean add(MovieFolder movieFolder);
 

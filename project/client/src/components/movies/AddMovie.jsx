@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 function AddMovie({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd}) {
     const [movieTitle, setMovieTitle] = useState("");
+    const [errors, setErrors] = useState([]);
 
     useEffect(() => {setCanAdd(false)}, [movieTitle])
 
@@ -14,10 +15,13 @@ function AddMovie({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd}) {
             }
         })
 
+        const payload = await response.json();
         if(response.ok) {
-            const payload = await response.json();
             setCurrMovie(payload);
             setCanAdd(true);
+            setErrors([]);
+        } else {
+            setErrors(payload);
         }
     }
 
@@ -41,14 +45,24 @@ function AddMovie({ currFolder, currMovie, setCurrMovie, canAdd, setCanAdd}) {
         if(response.ok) {
             setMovieTitle("");
             setCanAdd(false);
+            setErrors([]);
+        } else {
+            const payload = await response.json();
+            setErrors(payload);
         }
     }
 
     return ( 
         <div className="card p-3">
-            <h3 className="mb-3">
+            <h4 className="mb-3">
                 Search Movie
-            </h3>
+            </h4>
+
+            {errors.length > 0 && 
+                <>
+                    {errors.map(error => <small key={error}>Error: {error}</small>)}
+                </>
+            }
 
             <form onSubmit={handleSearch} className="d-flex gap-2 mb-3">
                 <input

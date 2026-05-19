@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 function AddFriendMovie({ movie }) {
     const [myFolders, setMyFolders] = useState([]);
     const [folder, setFolder] = useState(null);
+    const [errors, setErrors] = useState([]);
 
     useEffect(() => {
         const doFetch = async () => {
@@ -19,7 +20,9 @@ function AddFriendMovie({ movie }) {
             }
         }
         doFetch();
-    }, [])
+    }, []);
+
+    useEffect(() => {setErrors([])}, [movie]);
 
 
     async function handleAdd(event) {
@@ -42,9 +45,12 @@ function AddFriendMovie({ movie }) {
         });
 
         if(response.ok) {
-            
+            setFolder("");
+            setErrors([]);
+        } else {
+            const payload = await response.json();
+            setErrors(payload);
         }
-        // handle errors
     }
 
     function handleChange(event) {
@@ -56,10 +62,16 @@ function AddFriendMovie({ movie }) {
     }
 
     return (
-        <div className="card-p3">
-            <h3 className="mb-3">
+        <div className="card p-3">
+            <h3 className="mb-1">
                 Add Movie
             </h3>
+
+            {errors.length > 0 && 
+                <>
+                    {errors.map(error => <small key={error}>Error: {error}</small>)}
+                </>
+            }
 
             <form onSubmit={handleAdd} className="d-flex flex-column gap-2 mb-3">
                 <select className="form-select" value={folder?.id || ""} onChange={handleChange}>
