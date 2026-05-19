@@ -2,9 +2,11 @@ import { useState } from "react";
 
 function AddFriend() {
     const [username, setUsername] = useState("");
+    const [errors, setErrors] = useState([]);
 
     function handleChange(event) {
         setUsername(event.target.value);
+        setErrors([]);
     }
 
     async function handleSubmit(event) {
@@ -19,24 +21,36 @@ function AddFriend() {
 
         if(response.ok) {
             setUsername("");
+        } else {
+            const payload = await response.json();
+            setErrors(payload);
         }
         // handle errors
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="username">Find Friend</label>
-            <input id="username" name="username"
-                className="form-control" 
-                type="text" 
-                onChange={handleChange} 
-                value={username} 
-                required />
+        <>
+            {errors.length > 0 && 
+                <>
+                    {errors.map(error => <small key={error}>Error: {error}</small>)}
+                </>
+            }
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="username">Find Friend</label>
+                
+                <input id="username" name="username"
+                    className="form-control" 
+                    type="text" 
+                    onChange={handleChange} 
+                    value={username} 
+                    required />
 
-            <button className="btn btn-primary mt-2" type="submit">
-                Send Request
-            </button>
-        </form>
+                <button className="btn btn-primary mt-2" type="submit">
+                    Send Request
+                </button>
+            </form>
+        </>
+        
     );
 }
 

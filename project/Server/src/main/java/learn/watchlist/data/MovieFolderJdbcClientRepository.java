@@ -45,7 +45,7 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
     }
 
     @Override
-    public List<MovieFolder> findByUserId(int userId) {
+    public MovieFolder findByUserIdMovieId(int userId, int movieId) {
         final String sql = """
                 SELECT m.id, m.title, m.year, m.runtime, m.director, m.genre, m.poster_url,
                 f.id, f.name, mf.watched, mf.liked
@@ -53,12 +53,13 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
                 JOIN movie m ON m.id = mf.movie_id
                 JOIN folder f ON f.id = mf.folder_id
                 JOIN user u ON u.id = f.user_id
-                WHERE u.id = ?;
+                WHERE u.id = :user_id and m.id = :movie_id;
                 """;
         return jdbcClient.sql(sql)
-                .param(userId)
+                .param("user_id", userId)
+                .param("movie_id", movieId)
                 .query(new MovieFolderMapper())
-                .list();
+                .optional().orElse(null);
     }
 
     @Override

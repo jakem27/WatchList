@@ -90,11 +90,10 @@ public class MovieFolderService {
             return result;
         }
 
-        List<MovieFolder> existing = movieFolderRepository.findByUserId(user.getId());
-        for(MovieFolder mf : existing) {
-            if(mf.getMovie().getId() == movie.getId()) {
-                result.addMessage(movie.getTitle() + " is already in your WatchList", ResultType.INVALID);
-            }
+        MovieFolder existing = movieFolderRepository.findByUserIdMovieId(user.getId(), movie.getId());
+        if(existing != null) {
+            result.addMessage(movie.getTitle() + " is already in your WatchList", ResultType.INVALID);
+            return result;
         }
 
         boolean success = movieFolderRepository.add(movieFolder);
