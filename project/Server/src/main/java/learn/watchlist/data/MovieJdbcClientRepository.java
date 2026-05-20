@@ -30,8 +30,8 @@ public class MovieJdbcClientRepository  implements MovieRepository {
     @Override
     public Movie add(Movie movie) {
         final String sql = """
-                insert into movie (title, year, runtime, director, genre, poster_url)
-                values (:title, :year, :runtime, :director, :genre, :poster_url);
+                insert into movie (title, year, runtime, director, genre, description, poster_url)
+                values (:title, :year, :runtime, :director, :genre, :description, :poster_url);
                 """;
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -43,6 +43,7 @@ public class MovieJdbcClientRepository  implements MovieRepository {
                 .param("director", movie.getDirector())
                 .param("genre", movie.getGenre())
                 .param("poster_url", movie.getPosterUrl())
+                .param("description", movie.getDescription())
                 .update(keyHolder, "id");
 
         if(rowsAffected == 0) {
