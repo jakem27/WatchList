@@ -7,6 +7,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
     const [newFolderName, setNewFolderName] = useState("");
     const [editingFolder, setEditingFolder] = useState(null);
     const [editFolderName, setEditFolderName] = useState("");
+    const [deleteFolder, setDeleteFolder] = useState(null);
 
     const parentFolder = folderStack[folderStack.length - 1];
 
@@ -107,6 +108,24 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
         }
     }
 
+    async function handleDelete() {
+
+        const response = await fetch("http://localhost:8080/api/folder", {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(deleteFolder)
+        });
+
+        if(response.ok) {
+            setCurrFolder(parentFolder);
+            setFolders(folders.filter((f) => f.id !== deleteFolder.id));
+            setDeleteFolder(null);
+        }
+    }
+
     return (
         <>
             <div className="d-flex justify-content-between align-items-center gap-2">
@@ -140,7 +159,7 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                                         setCurrFolder(folder);
                                         setEditFolderName(folder.name);
                                         }}>Edit Name</button>
-                                    <button className="dropdown-item">Delete</button>
+                                    <button className="dropdown-item" onClick={() => setDeleteFolder(folder)}>Delete</button>
                                 </div>
                             </div>
                             
@@ -193,6 +212,42 @@ function FolderDirectory({ currFolder, setCurrFolder }) {
                     </form>}
                     
             </div>            
+
+            {deleteFolder !== null && (
+                <>
+                <div className="modal fade show d-block">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5>Delete Folder</h5>
+                            </div>
+
+                            <div className="modal-body">
+                                <div>
+                                    {`Are you sure you want to delete "${deleteFolder?.name}"?`}
+                                </div>
+                                <div>
+                                    All of it's movies and subfolders will be deleted as well.
+                                </div>
+                            </div>
+
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" onClick={() => setDeleteFolder(null)}>
+                                    Cancel
+                                </button>
+
+                                <button className="btn btn-danger" onClick={handleDelete}>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="modal-backdrop fade show"></div>
+                </>
+            )}
         </>
     )
 }

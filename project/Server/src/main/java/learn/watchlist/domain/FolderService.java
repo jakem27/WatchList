@@ -156,6 +156,34 @@ public class FolderService {
         return result;
     }
 
+    public Result<Void> delete(Folder folder, String username) {
+        Result<Void> result = new Result<>();
+        User user = authenticate(result, username);
+
+        Folder existing = folderRepository.findById(folder.getId());
+        if(existing == null) {
+            result.addMessage("Folder does not exist", ResultType.NOT_FOUND);
+            return result;
+        }
+
+        if(existing.getUser().getId() != user.getId()) {
+            result.addMessage("Cannot delete someone else's folder", ResultType.INVALID);
+            return result;
+        }
+
+        if(existing.getName().equals("My WatchList")) {
+            result.addMessage("Cannot delete root folder", ResultType.INVALID);
+            return result;
+        }
+
+        boolean success = folderRepository.delete(folder.getId());
+        if(!success) {
+            result.addMessage("Failed to delete", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
     private User authenticate(Result<?> result, String username) {
         User user = userRepository.findByUsername(username);
         if(user == null) {
