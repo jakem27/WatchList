@@ -93,4 +93,16 @@ public class FolderController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestBody Folder folder, Authentication auth) {
+        String username = auth.getName();
+        Result<Void> result = folderService.delete(folder, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
