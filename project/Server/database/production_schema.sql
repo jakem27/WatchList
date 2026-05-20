@@ -22,6 +22,7 @@ create table folder(
 	constraint fk_folder_parent_id
 		foreign key (parent_id)
 		references folder(id)
+		on delete cascade
 );
 
 create table movie( 
@@ -48,6 +49,7 @@ create table movie_folder(
 	constraint fk_movie_folder_folder_id
 		foreign key (folder_id)
 		references folder(id)
+		on delete cascade
 );
 
 create table friendship( 
