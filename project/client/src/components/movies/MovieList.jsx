@@ -86,7 +86,7 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
         <>
             {currFolder !== null && 
                     <div className="d-flex justify-content-between align-items-center gap-2">
-                        <h3>{currFolder.name !== "root" ? currFolder.name : "My WatchList"}</h3>
+                        <h3>{currFolder.name}</h3>
                         <div className="form-check form-switch">
                             <label className="form-check-label" htmlFor="publicSwitch">Public</label>
                             <input 
@@ -94,7 +94,8 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
                                 type="checkbox" role="switch" 
                                 id="publicSwitch" 
                                 checked={currFolder.public}
-                                onChange={togglePublic}/>
+                                onChange={togglePublic}
+                                disabled={movieFolders.length === 0}/>
                         </div>
                     </div>
             }

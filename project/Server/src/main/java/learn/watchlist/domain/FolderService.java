@@ -92,8 +92,8 @@ public class FolderService {
             return result;
         }
 
-        if(folder.getName().equals("root")) {
-            result.addMessage("Folder name `root` is unavailable", ResultType.INVALID);
+        if(folder.getName().equals("My WatchList")) {
+            result.addMessage("Folder name `My WatchList` is unavailable", ResultType.INVALID);
             return result;
         }
 

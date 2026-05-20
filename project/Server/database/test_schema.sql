@@ -94,7 +94,7 @@ begin
 	(6, "movie6", 2006, 115, "director6", "superhero", "superhero movie", "");
 	
 	insert into folder(id, name, is_public, user_id, parent_id) values
-	(1, "root", 0, 1, NULL),
+	(1, "My WatchList", 0, 1, NULL),
 	(2, "f1", 0, 1, 1),
 	(3, "f2", 0, 1, 1),
 	(4, "other", 1, 2, NULL),

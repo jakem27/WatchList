@@ -63,11 +63,11 @@ class FolderServiceTest {
     @Test
     void shouldNotAddRootName() {
         Folder folder = TestHelper.makeFolder();
-        folder.setName("root");
+        folder.setName("My WatchList");
 
         Result<Folder> result = service.add(folder, folder.getUser().getUsername());
         assertEquals(ResultType.INVALID, result.getType());
-        assertEquals("Folder name `root` is unavailable", result.getMessages().get(0));
+        assertEquals("Folder name `My WatchList` is unavailable", result.getMessages().get(0));
     }
 
     @Test
