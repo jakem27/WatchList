@@ -90,4 +90,17 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
                 .param("folder_id", movieFolder.getFolder().getId())
                 .update() > 0;
     }
+
+    @Override
+    public boolean delete(int movieId, int folderId) {
+        final String sql = """
+                delete from movie_folder
+                where movie_id = :movie_id and folder_id = :folder_id;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param("movie_id", movieId)
+                .param("folder_id", folderId)
+                .update() > 0;
+    }
 }
