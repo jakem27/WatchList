@@ -138,6 +138,16 @@ public class FolderService {
             return result;
         }
 
+        if(existing.getUser().getId() != folder.getUser().getId()) {
+            result.addMessage("Cannot change owner", ResultType.INVALID);
+            return result;
+        }
+
+        if(existing.getParentId() != folder.getParentId()) {
+            result.addMessage("Cannot change parent folder", ResultType.INVALID);
+            return result;
+        }
+
         boolean success = folderRepository.update(folder);
         if(!success) {
             result.addMessage("Failed to make folder public", ResultType.INVALID);
