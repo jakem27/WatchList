@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd, setCanAdd }) {
     const [movieFolders, setMovieFolders] = useState([]);
+    const [hoverId, setHoverId] = useState(null);
 
     useEffect(() => {
         if(currFolder === null) {
@@ -82,6 +83,21 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
         }
     }
 
+    async function handleDelete(mf) {
+        const response = await fetch(`http://localhost:8080/api/movie`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(mf)
+        });
+
+        if(response.ok) {
+            setMovieFolders(movieFolders.filter((prev) => prev.movie.id != mf.movie.id));
+        }
+    }
+
     return (
         <>
             {currFolder !== null && 
@@ -102,23 +118,31 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
 
             <div className="d-flex flex-column gap-3 overflow-auto">
                 {movieFolders.map(mf => (
-                    <div className="card w-100 shadow-sm movie-card" key={[mf.movie.id, mf.folder.id]} onClick={() => handleClick(mf.movie)}>
+                    <div className="card w-100 shadow-sm movie-card" key={mf.movie.id} onClick={() => handleClick(mf.movie)}>
                         <div className="card-body">
                             <div className="d-flex justify-content-between align-itmes-center mb-3">
+                                <div className="d-flex align-items-center gap-2">
+                                    <button className="btn p-0 text-danger" 
+                                        onClick={() => handleDelete(mf)}
+                                        onMouseEnter={() => setHoverId(mf.movie.id)}
+                                        onMouseLeave={() => setHoverId(null)}
+                                    >
+                                        <i className={`bi bi-${hoverId === mf.movie.id ? "x-circle-fill" : "x-circle"} fs-5`}></i>
+                                    </button>
+                                    <div className="d-flex flex-column">
+                                        <div className="d-flex align-items-center gap-2">
+                                            <i className="bi bi-folder fs-4"></i>
+                                            <small>
+                                                {mf.folder.name}
+                                            </small>
+                                        </div>
 
-                                <div className="d-flex flex-column">
-                                    <div className="d-flex align-items-center gap-2">
-                                        <i className="bi bi-folder fs-4"></i>
-                                        <small>
-                                            {mf.folder.name}
-                                        </small>
-                                    </div>
-
-                                    <div className="d-flex align-items-center gap-2">
-                                        <i className="bi bi-camera-reels fs-4"></i>
-                                        <span className="fw-semibold">
-                                            {mf.movie.title}
-                                        </span>
+                                        <div className="d-flex align-items-center gap-2">
+                                            <i className="bi bi-camera-reels fs-4"></i>
+                                            <span className="fw-semibold">
+                                                {mf.movie.title}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 

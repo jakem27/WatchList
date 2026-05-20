@@ -12,4 +12,6 @@ public interface MovieFolderRepository {
     boolean add(MovieFolder movieFolder);
 
     boolean update(MovieFolder movieFolder);
+
+    boolean delete(int movieId, int folderId);
 }
