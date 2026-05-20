@@ -8,16 +8,18 @@ public class Movie {
     private String director;
     private String genre;
     private String posterUrl;
+    private String description;
 
     public Movie() {}
 
-    public Movie(int id, String title, int year, int runtime, String director, String genre) {
+    public Movie(int id, String title, int year, int runtime, String director, String genre, String description) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.runtime = runtime;
         this.director = director;
         this.genre = genre;
+        this.description = description;
     }
 
     public int getId() {
@@ -71,4 +73,12 @@ public class Movie {
     public String getPosterUrl() { return posterUrl; }
 
     public void setPosterUrl(String posterUrl) { this.posterUrl = posterUrl; }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

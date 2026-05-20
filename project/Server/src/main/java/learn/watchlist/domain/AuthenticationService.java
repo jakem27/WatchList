@@ -67,7 +67,7 @@ public class AuthenticationService {
             user = repository.create(user);
             result.setPayload(user);
 
-            Folder root = new Folder("root", false, user, 0);
+            Folder root = new Folder("My WatchList", false, user, 0);
             folderRepository.add(root);
         }
 

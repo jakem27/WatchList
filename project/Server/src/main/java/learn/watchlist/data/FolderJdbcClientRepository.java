@@ -35,7 +35,7 @@ public class FolderJdbcClientRepository implements FolderRepository {
 
     @Override
     public Folder findRoot(int userId) {
-        final String sql = BASE_SQL + " where f.name = 'root' and u.id = ?";
+        final String sql = BASE_SQL + " where f.name = 'My WatchList' and u.id = ?";
 
         return jdbcClient.sql(sql)
                 .param(userId)

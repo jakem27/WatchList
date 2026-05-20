@@ -22,7 +22,7 @@ function AddFriendMovie({ movie }) {
         doFetch();
     }, []);
 
-    useEffect(() => {setErrors([])}, [movie]);
+    useEffect(() => {setErrors([])}, [movie, folder]);
 
 
     async function handleAdd(event) {

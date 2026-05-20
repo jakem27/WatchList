@@ -31,6 +31,7 @@ create table movie(
 	runtime int,
 	director text,
 	genre text,
+	description text,
 	poster_url text
 );
 

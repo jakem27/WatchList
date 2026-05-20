@@ -40,7 +40,7 @@ class FolderJdbcClientRepositoryTest {
 
         assertNotNull(actual);
         assertEquals("user1", actual.getUser().getUsername());
-        assertEquals("root", actual.getName());
+        assertEquals("My WatchList", actual.getName());
     }
 
     @Test

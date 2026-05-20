@@ -42,6 +42,7 @@ public class OmdbClient {
         movie.setDirector(response.getDirector());
         movie.setGenre(response.getGenre());
         movie.setPosterUrl(response.getPosterUrl());
+        movie.setDescription(response.getDescription());
 
         return movie;
     }
