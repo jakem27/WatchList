@@ -130,4 +130,15 @@ public class FolderJdbcClientRepository implements FolderRepository {
                 .param("id", folder.getId())
                 .update() > 0;
     }
+
+    @Override
+    public boolean delete(int folderId) {
+        final String sql = """
+                delete from folder
+                where id = ?;
+                """;
+        return jdbcClient.sql(sql)
+                .param(folderId)
+                .update() > 0;
+    }
 }

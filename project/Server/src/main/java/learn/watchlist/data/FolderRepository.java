@@ -18,4 +18,6 @@ public interface FolderRepository {
     Folder add(Folder folder);
 
     boolean update(Folder folder);
+
+    boolean delete(int folderId);
 }
