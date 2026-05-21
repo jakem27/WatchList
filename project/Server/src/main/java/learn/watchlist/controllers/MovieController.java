@@ -48,6 +48,17 @@ public class MovieController {
         return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
     }
 
+    @GetMapping("/services/{title}")
+    public ResponseEntity<?> findServices(@PathVariable("title") String title) {
+        Result<List<String>> result = movieService.findServices(title);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> addMovie(@RequestBody MovieFolder movieFolder, Authentication auth) {
         String username = auth.getName();

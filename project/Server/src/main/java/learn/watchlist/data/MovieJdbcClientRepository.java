@@ -27,16 +27,10 @@ public class MovieJdbcClientRepository  implements MovieRepository {
                 where title = ?;
                 """;
 
-        Movie movie = jdbcClient.sql(sql)
+        return jdbcClient.sql(sql)
                 .param(title)
                 .query(Movie.class)
                 .optional().orElse(null);
-
-        if(movie != null) {
-            addStreamingServices(movie);
-        }
-
-        return movie;
     }
 
     @Override
@@ -98,7 +92,7 @@ public class MovieJdbcClientRepository  implements MovieRepository {
         return true;
     }
 
-    private void addStreamingServices(Movie movie) {
+    public List<String> findServices(int movieId) {
         final String sql = """
                 select ms.streaming_service
                 from movie m
@@ -106,11 +100,9 @@ public class MovieJdbcClientRepository  implements MovieRepository {
                 where m.id = ?;
                 """;
 
-        List<String> services = jdbcClient.sql(sql)
-                .param(movie.getId())
+        return jdbcClient.sql(sql)
+                .param(movieId)
                 .query(String.class)
                 .list();
-
-        movie.setServices(services);
     }
 }

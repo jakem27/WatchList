@@ -46,6 +46,20 @@ public class MovieService {
         return result;
     }
 
+    public Result<List<String>> findServices(String title) {
+        Result<List<String>> result = new Result<>();
+
+        Movie movie = movieRepository.findByTitle(title);
+        if(movie == null) {
+            result.addMessage("Movie not found", ResultType.NOT_FOUND);
+            return result;
+        }
+
+        List<String> services = movieRepository.findServices(movie.getId());
+        result.setPayload(services);
+        return result;
+    }
+
     public Result<Void> updateServices(String title, List<String> services, String username) {
         Result<Void> result = new Result<>();
         User user = userRepository.findByUsername(username);

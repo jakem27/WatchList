@@ -9,5 +9,7 @@ public interface MovieRepository {
 
     Movie add(Movie movie);
 
+    List<String> findServices(int movieId);
+
     boolean updateServices(int movieId, List<String> services);
 }

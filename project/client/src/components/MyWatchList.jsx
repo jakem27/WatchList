@@ -36,7 +36,7 @@ function MyWatchList() {
 
             <div className="col-3 border rounded shadow-sm p-4 d-flex flex-column h-100">
                     <div className="flex-grow-1 overflow-hidden">
-                        <MovieView currMovie={currMovie}/>
+                        <MovieView currMovie={currMovie} setCurrMovie={setCurrMovie}/>
                     </div>
                     
                     <div className="mt-auto pt-3 flex-shrink-0">
