@@ -58,6 +58,20 @@ public class UserJdbcClientRepository implements UserRepository {
         return user;
     }
 
+    public boolean update(User user) {
+        final String sql = """
+                update user
+                set favorite_movie = :movie, favorite_actor = :actor, favorite_genre = :genre
+                where id = :id;
+                """;
+        return jdbcClient.sql(sql)
+                .param("movie", user.getFavoriteMovie())
+                .param("actor", user.getFavoriteActor())
+                .param("genre", user.getFavoriteGenre())
+                .param("id", user.getId())
+                .update() > 0;
+    }
+
     private void addStats(User user) {
         final String sql = """
                 select count(*) as movies_watched, coalesce(sum(m.runtime), 0) as minutes_watched

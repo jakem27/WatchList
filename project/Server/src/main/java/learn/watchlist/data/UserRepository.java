@@ -6,4 +6,6 @@ public interface UserRepository {
     User findByUsername(String username);
 
     User create(User user);
+
+    boolean update(User user);
 }
