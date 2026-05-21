@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class MovieJdbcClientRepository  implements MovieRepository {
     private final JdbcClient jdbcClient;
@@ -21,10 +24,16 @@ public class MovieJdbcClientRepository  implements MovieRepository {
                 where title = ?;
                 """;
 
-        return jdbcClient.sql(sql)
+        Movie movie = jdbcClient.sql(sql)
                 .param(title)
                 .query(Movie.class)
                 .optional().orElse(null);
+
+        if(movie != null) {
+            addStreamingServices(movie);
+        }
+
+        return movie;
     }
 
     @Override
@@ -51,6 +60,23 @@ public class MovieJdbcClientRepository  implements MovieRepository {
         }
 
         movie.setId(keyHolder.getKey().intValue());
+        movie.setServices(new ArrayList<>());
         return movie;
+    }
+
+    private void addStreamingServices(Movie movie) {
+        final String sql = """
+                select ms.streaming_service
+                from movie m
+                join movie_service ms on m.id = ms.movie_id
+                where m.id = ?;
+                """;
+
+        List<String> services = jdbcClient.sql(sql)
+                .param(movie.getId())
+                .query(String.class)
+                .list();
+
+        movie.setServices(services);
     }
 }
