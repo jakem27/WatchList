@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 
 function Profile() {
     const [user, setUser] = useState(null);
-    const [editing, setEditing] = useState(false);
+    const [editingFavorites, setEditingFavorites] = useState(false);
+    const [editingServices, setEditingServices] = useState(false);
+    const [services, setServices] = useState([]);
 
     useEffect(() => {
         const doFetch = async () => {
@@ -14,6 +16,7 @@ function Profile() {
 
             const payload = await response.json();
             setUser(payload);
+            setServices(payload.services || []);
         }
         doFetch();
     }, []);
@@ -22,7 +25,17 @@ function Profile() {
         setUser({...user, [e.target.name]: e.target.value});
     }
 
-    async function handleSave() {
+    function handleServiceChange(e) {
+        const value = e.target.value;
+
+        if(e.target.checked) {
+            setServices([...services, value]);
+        } else {
+            setServices(services.filter(service => service !== value));
+        }
+    }
+
+    async function handleSaveInfo() {
         const response = await fetch("http://localhost:8080/api/profile", {
             method: "PUT",
             headers: {
@@ -33,7 +46,23 @@ function Profile() {
         });
 
         if(response.ok) {
-            setEditing(false);
+            setEditingFavorites(false);
+        }
+    }
+
+    async function handleSaveServices() {
+        const response = await fetch("http://localhost:8080/api/profile/services", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify(services)
+        });
+
+        if(response.ok) {
+            setUser({...user, services: services});
+            setEditingServices(false);
         }
     }
 
@@ -41,11 +70,13 @@ function Profile() {
         <>
         {user !== null && 
         <>
-        <h2>{user.username}</h2>
+        <h1>{user.username}</h1>
         <div className="row">
-            <div className="col-6">
+            <div className="col-1"></div>
+            <div className="col-4 border rounded shadow-sm">
+                <h3 className="mt-3">Info</h3>
                 <ul className="list-unstyled">
-                    {editing ? 
+                    {editingFavorites ? 
                     <>
                     <li className="mb-2 d-flex align-items-center gap-2 w-50">
                         <label className="form-label mb-0 text-nowrap">Favorite Movie:</label>
@@ -71,27 +102,79 @@ function Profile() {
                     <li>{`Total Minutes Watched: ${user.stats?.minutesWatched}`}</li>
                 </ul>
 
-                {editing ? 
+                {editingFavorites ? 
                 <div>
-                    <button className="btn btn-success me-2" onClick={handleSave}>
+                    <button className="btn btn-success me-2 mb-3" onClick={handleSaveInfo}>
                         Save
                     </button>
-                    <button className="btn btn-secondary" onClick={() => setEditing(false)}>
+                    <button className="btn btn-secondary mb-3" onClick={() => setEditingFavorites(false)}>
                         Cancel
                     </button>
                 </div>
                 :
-                <button className="btn btn-warning" onClick={() => setEditing(true)}>
+                <button className="btn btn-warning mb-3" onClick={() => setEditingFavorites(true)}>
                     Edit
                 </button>
                 }
                 
             </div>
-            
 
-            <div className="col-6 border rounded shadow-sm">
+            <div className="col-2"></div>
 
+            <div className="col-4 border rounded shadow-sm">
+                <h3 className="mt-3">Streaming Services</h3>
+                {editingServices ? 
+                <>
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="service1" value="Netflix" checked={services.includes("Netflix")} onChange={handleServiceChange} />
+                    <label className="form-check-label" htmlFor="service1">Netflix</label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="service2" value="Hulu" checked={services.includes("Hulu")} onChange={handleServiceChange} />
+                    <label className="form-check-label" htmlFor="service2">Hulu</label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="service3" value="HBO Max" checked={services.includes("HBO Max")} onChange={handleServiceChange} />
+                    <label className="form-check-label" htmlFor="service3">HBO Max</label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="service4" value="Apple TV" checked={services.includes("Apple TV")} onChange={handleServiceChange} />
+                    <label className="form-check-label" htmlFor="service4">Apple TV</label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="service5" value="Paramount+" checked={services.includes("Paramount+")} onChange={handleServiceChange} />
+                    <label className="form-check-label" htmlFor="service5">Paramount+</label>
+                </div>
+                <div className="form-check">
+                    <input className="form-check-input" type="checkbox" id="service6" value="Amazon Prime" checked={services.includes("Amazon Prime")} onChange={handleServiceChange} />
+                    <label className="form-check-label" htmlFor="service6">Amazon Prime</label>
+                </div>
+
+                <div>
+                    <button className="btn btn-success me-2 mb-3" onClick={handleSaveServices}>
+                        Save
+                    </button>
+                    <button className="btn btn-secondary mb-3" onClick={() => {
+                        setEditingServices(false);
+                        setServices(user.services || []);
+                        }}>
+                        Cancel
+                    </button>
+                </div>
+                </>
+                :
+                <>
+                <ul>
+                    {user?.services.map(service => <li key={service}>{service}</li>)}
+                </ul>
+                <button className="btn btn-warning mb-3" onClick={() => setEditingServices(true)}>
+                    Edit
+                </button>
+                </>
+                }
+                
             </div>
+            <div className="col-1"></div>
         </div>
         </>
         }

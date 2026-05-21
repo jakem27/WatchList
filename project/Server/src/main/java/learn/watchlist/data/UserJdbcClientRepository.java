@@ -3,17 +3,22 @@ package learn.watchlist.data;
 import learn.watchlist.data.mappers.UserMapper;
 import learn.watchlist.models.Stats;
 import learn.watchlist.models.User;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class UserJdbcClientRepository implements UserRepository {
 
     private final JdbcClient jdbcClient;
+    private final JdbcTemplate jdbcTemplate;
 
-    public UserJdbcClientRepository(JdbcClient jdbcClient) {
+    public UserJdbcClientRepository(JdbcClient jdbcClient, JdbcTemplate jdbcTemplate) {
         this.jdbcClient = jdbcClient;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -31,6 +36,7 @@ public class UserJdbcClientRepository implements UserRepository {
 
         if(user != null) {
             addStats(user);
+            addStreamingServices(user);
         }
 
         return user;
@@ -72,6 +78,36 @@ public class UserJdbcClientRepository implements UserRepository {
                 .update() > 0;
     }
 
+    public boolean updateServices(int userId, List<String> services) {
+        final String deleteSql = """
+                delete from user_service
+                where user_id = ?;
+                """;
+
+        jdbcClient.sql(deleteSql)
+                .param(userId)
+                .update();
+
+        if(services.isEmpty()) return true;
+
+        final String addSql = """
+                insert into user_service (user_id, streaming_service)
+                values (?, ?);
+                """;
+
+        jdbcTemplate.batchUpdate(
+                addSql,
+                services,
+                services.size(),
+                (ps, service) -> {
+                    ps.setInt(1, userId);
+                    ps.setString(2, service);
+                }
+        );
+
+        return true;
+    }
+
     private void addStats(User user) {
         final String sql = """
                 select count(*) as movies_watched, coalesce(sum(m.runtime), 0) as minutes_watched
@@ -89,5 +125,21 @@ public class UserJdbcClientRepository implements UserRepository {
 
 
         user.setStats(stats);
+    }
+
+    private void addStreamingServices(User user) {
+        final String sql = """
+                select us.streaming_service
+                from user u
+                join user_service us on u.id = us.user_id
+                where u.id = ?;
+                """;
+
+        List<String> services = jdbcClient.sql(sql)
+                .param(user.getId())
+                .query(String.class)
+                .list();
+
+        user.setServices(services);
     }
 }

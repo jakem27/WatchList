@@ -66,6 +66,16 @@ create table friendship(
 		references user(id)
 );
 
+create table user_service(
+	user_id int,
+	streaming_service varchar(20),
+	constraint pk_user_service
+		primary key (user_id, streaming_service),
+	constraint fk_user_service_user
+		foreign key (user_id)
+		references user(id)
+);
+
 delimiter //
 create procedure set_known_good_state()
 begin

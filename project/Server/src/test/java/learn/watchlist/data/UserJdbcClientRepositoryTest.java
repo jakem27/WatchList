@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -50,5 +52,11 @@ class UserJdbcClientRepositoryTest {
         assertEquals(AdminStatus.NOT_ADMIN, actual.getAdminStatus());
         assertEquals(0, actual.getStats().getMoviesWatched());
         assertEquals(0, actual.getStats().getMinutesWatched());
+    }
+
+    @Test
+    void shouldAddServices() {
+        List<String> services = List.of("s1", "s2", "s3");
+        assertTrue(repository.updateServices(1, services));
     }
 }

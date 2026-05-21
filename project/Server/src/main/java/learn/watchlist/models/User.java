@@ -1,5 +1,6 @@
 package learn.watchlist.models;
 
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -11,6 +12,7 @@ public class User {
     private String favoriteGenre;
     private AdminStatus adminStatus;
     private Stats stats;
+    private List<String> services;
 
     public User() {}
 
@@ -76,6 +78,14 @@ public class User {
 
     public void setStats(Stats stats) {
         this.stats = stats;
+    }
+
+    public List<String> getServices() {
+        return services;
+    }
+
+    public void setServices(List<String> services) {
+        this.services = services;
     }
 
     @Override

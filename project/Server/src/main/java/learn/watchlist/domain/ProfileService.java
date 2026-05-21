@@ -6,6 +6,8 @@ import learn.watchlist.models.Friendship;
 import learn.watchlist.models.User;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProfileService {
     private final UserRepository userRepository;
@@ -71,7 +73,7 @@ public class ProfileService {
             return result;
         }
 
-        if(user.getId() != authUser.getId() || user.getUsername() != authUser.getUsername()) {
+        if(user.getId() != authUser.getId() || !user.getUsername().equals(authUser.getUsername())) {
             result.addMessage("Cannot edit someone else's profile", ResultType.INVALID);
             return result;
         }
@@ -79,6 +81,28 @@ public class ProfileService {
         boolean success = userRepository.update(user);
         if(!success) {
             result.addMessage("Failed to update", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
+    public Result<Void> updateServices(List<String> services, String username) {
+        Result<Void> result = new Result<>();
+
+        User user = userRepository.findByUsername(username);
+        if(user == null) {
+            result.addMessage("Invalid user", ResultType.INVALID);
+            return result;
+        }
+
+        if(services == null) {
+            result.addMessage("Services required", ResultType.INVALID);
+            return result;
+        }
+
+        boolean success = userRepository.updateServices(user.getId(), services);
+        if(!success) {
+            result.addMessage("Failed to update services", ResultType.INVALID);
         }
 
         return result;
