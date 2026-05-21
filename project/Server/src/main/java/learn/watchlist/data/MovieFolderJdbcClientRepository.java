@@ -22,9 +22,9 @@ public class MovieFolderJdbcClientRepository implements MovieFolderRepository {
                     SELECT id
                     FROM folder
                     WHERE id = ?
-                    
+                
                     UNION ALL
-                    
+                
                     SELECT f.id
                     FROM FOLDER f
                     JOIN folder_tree ft ON f.parent_id = ft.id

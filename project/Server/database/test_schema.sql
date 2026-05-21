@@ -76,6 +76,16 @@ create table user_service(
 		references user(id)
 );
 
+create table movie_service(
+	movie_id int,
+	streaming_service varchar(20),
+	constraint pk_movie_service
+		primary key (movie_id, streaming_service),
+	constraint fk_movie_service_movie
+		foreign key (movie_id)
+		references movie(id)
+);
+
 delimiter //
 create procedure set_known_good_state()
 begin

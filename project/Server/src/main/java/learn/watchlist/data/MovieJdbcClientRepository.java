@@ -1,16 +1,22 @@
 package learn.watchlist.data;
 
 import learn.watchlist.models.Movie;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class MovieJdbcClientRepository  implements MovieRepository {
     private final JdbcClient jdbcClient;
+    private final JdbcTemplate jdbcTemplate;
 
-    public MovieJdbcClientRepository(JdbcClient jdbcClient) {
+    public MovieJdbcClientRepository(JdbcClient jdbcClient, JdbcTemplate jdbcTemplate) {
         this.jdbcClient = jdbcClient;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -51,6 +57,52 @@ public class MovieJdbcClientRepository  implements MovieRepository {
         }
 
         movie.setId(keyHolder.getKey().intValue());
+        movie.setServices(new ArrayList<>());
         return movie;
+    }
+
+    @Override
+    public boolean updateServices(int movieId, List<String> services) {
+        final String deleteSql = """
+                delete from movie_service
+                where movie_id = ?;
+                """;
+
+        jdbcClient.sql(deleteSql)
+                .param(movieId)
+                .update();
+
+        if(services.isEmpty()) return true;
+
+        final String addSql = """
+                insert into movie_service (movie_id, streaming_service)
+                values (?, ?);
+                """;
+
+        jdbcTemplate.batchUpdate(
+                addSql,
+                services,
+                services.size(),
+                (ps, service) -> {
+                    ps.setInt(1, movieId);
+                    ps.setString(2, service);
+                }
+        );
+
+        return true;
+    }
+
+    public List<String> findServices(int movieId) {
+        final String sql = """
+                select ms.streaming_service
+                from movie m
+                join movie_service ms on m.id = ms.movie_id
+                where m.id = ?;
+                """;
+
+        return jdbcClient.sql(sql)
+                .param(movieId)
+                .query(String.class)
+                .list();
     }
 }
