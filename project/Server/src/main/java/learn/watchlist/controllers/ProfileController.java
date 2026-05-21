@@ -6,10 +6,7 @@ import learn.watchlist.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/profile")
@@ -43,5 +40,18 @@ public class ProfileController {
         }
 
         return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateProfile(@RequestBody User user, Authentication auth) {
+        String username = auth.getName();
+
+        Result<Void> result = service.updateProfile(user, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
