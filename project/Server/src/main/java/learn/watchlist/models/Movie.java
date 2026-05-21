@@ -1,5 +1,7 @@
 package learn.watchlist.models;
 
+import java.util.List;
+
 public class Movie {
     private int id;
     private String title;
@@ -9,6 +11,7 @@ public class Movie {
     private String genre;
     private String posterUrl;
     private String description;
+    private List<String> services;
 
     public Movie() {}
 
@@ -80,5 +83,13 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<String> getServices() {
+        return services;
+    }
+
+    public void setServices(List<String> services) {
+        this.services = services;
     }
 }
