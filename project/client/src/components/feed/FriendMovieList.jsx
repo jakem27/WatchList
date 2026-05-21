@@ -15,6 +15,11 @@ function FriendMovieList({ folder, setMovie }) {
             if(response.ok) {
                 const payload = await response.json();
                 setMovieFolders(payload);
+                if(payload.length > 0) {
+                    setMovie(payload[0].movie);
+                } else {
+                    setMovie(null);
+                }
             }
         }
         doFetch();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FolderDirectory from "./folders/FolderDirectory";
 import { Link } from "react-router-dom";
 import AddMovie from "./movies/AddMovie";
@@ -9,6 +9,21 @@ function MyWatchList() {
     const [currFolder, setCurrFolder] = useState(null);
     const [currMovie, setCurrMovie] = useState(null);
     const [canAdd, setCanAdd] = useState(false);
+    const [userServices, setUserServices] = useState([]);
+
+    useEffect(() => {
+            const doFetch = async () => {
+                const response = await fetch("http://localhost:8080/api/profile", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+    
+                const payload = await response.json();
+                setUserServices(payload.services || []);
+            }
+            doFetch();
+        }, []);
 
     return (
         <div className="row h-100 px-3">
@@ -36,7 +51,11 @@ function MyWatchList() {
 
             <div className="col-3 border rounded shadow-sm p-4 d-flex flex-column h-100">
                     <div className="flex-grow-1 overflow-hidden">
-                        <MovieView currMovie={currMovie} setCurrMovie={setCurrMovie}/>
+                        <MovieView 
+                            currMovie={currMovie}
+                            setCurrMovie={setCurrMovie}
+                            userServices={userServices}
+                        />
                     </div>
                     
                     <div className="mt-auto pt-3 flex-shrink-0">

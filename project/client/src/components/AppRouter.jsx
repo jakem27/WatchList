@@ -17,7 +17,7 @@ function AppRouter() {
             children: [
                 {
                     path: "/",
-                    element: <h2>Home</h2>
+                    element: <h2>Welcome to WatchList!</h2>
                 },
                 {
                     path: "/users/create",

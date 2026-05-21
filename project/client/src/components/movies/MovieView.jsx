@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
-function MovieView({ currMovie, setCurrMovie }) {
+function MovieView({ currMovie, setCurrMovie, userServices }) {
     const [showDescription, setShowDescription] = useState(false);
     const [editingServices, setEditingServices] = useState(false);
     const [services, setServices] = useState([]);
+
+
 
     useEffect(() => {
         setShowDescription(false);
@@ -63,8 +65,11 @@ function MovieView({ currMovie, setCurrMovie }) {
                         }}
                     />
                 </div>
-
-                <h3>{currMovie.title}</h3>
+                
+                <div className="d-flex align-items-center justify-content-between">
+                    <h3>{currMovie.title}</h3>
+                    {userServices.some(s => services.includes(s)) && <i className="bi bi-eye-fill mx-4 fs-4 text-success"></i>}
+                </div>
                 <h5>{`Released: ${currMovie.year}`}</h5>
                 <h5>{`Runtime: ${currMovie.runtime} min`}</h5>
                 <h5>{`Directed by: ${currMovie.director}`}</h5>

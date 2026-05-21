@@ -24,6 +24,8 @@ function MovieList({ currFolder, setCurrFolder, currMovie, setCurrMovie, canAdd,
         doFetch();
     }, [currFolder, currMovie, canAdd]);
 
+    
+
     function handleClick(movie) {
         setCurrMovie(movie);
         setCanAdd(false);
