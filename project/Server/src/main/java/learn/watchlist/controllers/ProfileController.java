@@ -21,15 +21,22 @@ public class ProfileController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<?> findUser(@PathVariable("username") String findUsername, Authentication auth) {
+    public ResponseEntity<?> friendProfile(@PathVariable("username") String findUsername, Authentication auth) {
         String authUsername = auth.getName();
 
-        Result<User> result;
-        if(findUsername.equals(authUsername)) {
-            result = service.findUser(authUsername);
-        } else {
-            result = service.findUser(authUsername, findUsername);
+        Result<User> result = service.findUser(authUsername, findUsername);
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
         }
+
+        return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> userProfile(Authentication auth) {
+        String username = auth.getName();
+
+        Result<User> result = service.findUser(username);
 
         if(!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);

@@ -6,6 +6,7 @@ import MyWatchList from "./MyWatchList";
 import FriendsPage from "./friends/friendsPage";
 import FolderFeed from "./feed/Feed";
 import FriendWatchList from "./feed/FriendWatchList";
+import Profile from "./users/Profile";
 
 function AppRouter() {
 
@@ -41,6 +42,10 @@ function AppRouter() {
                 {
                     path: "/friend-watchlist",
                     element: <FriendWatchList />
+                },
+                {
+                    path: "/profile",
+                    element: <Profile />
                 }
             ]
         }

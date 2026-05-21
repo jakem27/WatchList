@@ -7,7 +7,9 @@ create table user(
 	username text,
 	password text,
 	favorite_movie text null,
-	favorite_actor text null
+	favorite_actor text null,
+	favorite_genre text null,
+	admin_status text
 );
 
 create table folder(

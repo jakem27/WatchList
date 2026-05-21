@@ -50,6 +50,12 @@ function Nav() {
                         </li>
 
                         <li className="nav-item">
+                            <NavLink id="link" className="nav-link" to="/profile">
+                                Profile
+                            </NavLink>
+                        </li>
+
+                        <li className="nav-item">
                             <button id="link" className="nav-link" onClick={() => {
                                 setToken(null);
                                 localStorage.clear("token");

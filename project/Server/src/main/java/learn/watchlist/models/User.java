@@ -8,6 +8,9 @@ public class User {
     private String password;
     private String favoriteMovie;
     private String favoriteActor;
+    private String favoriteGenre;
+    private AdminStatus adminStatus;
+    private Stats stats;
 
     public User() {}
 
@@ -49,6 +52,30 @@ public class User {
 
     public void setFavoriteActor(String favoriteActor) {
         this.favoriteActor = favoriteActor;
+    }
+
+    public String getFavoriteGenre() {
+        return favoriteGenre;
+    }
+
+    public void setFavoriteGenre(String favoriteGenre) {
+        this.favoriteGenre = favoriteGenre;
+    }
+
+    public AdminStatus getAdminStatus() {
+        return adminStatus;
+    }
+
+    public void setAdminStatus(AdminStatus adminStatus) {
+        this.adminStatus = adminStatus;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public void setStats(Stats stats) {
+        this.stats = stats;
     }
 
     @Override
