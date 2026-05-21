@@ -1,5 +1,6 @@
 package learn.watchlist.models;
 
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -8,6 +9,10 @@ public class User {
     private String password;
     private String favoriteMovie;
     private String favoriteActor;
+    private String favoriteGenre;
+    private AdminStatus adminStatus;
+    private Stats stats;
+    private List<String> services;
 
     public User() {}
 
@@ -49,6 +54,38 @@ public class User {
 
     public void setFavoriteActor(String favoriteActor) {
         this.favoriteActor = favoriteActor;
+    }
+
+    public String getFavoriteGenre() {
+        return favoriteGenre;
+    }
+
+    public void setFavoriteGenre(String favoriteGenre) {
+        this.favoriteGenre = favoriteGenre;
+    }
+
+    public AdminStatus getAdminStatus() {
+        return adminStatus;
+    }
+
+    public void setAdminStatus(AdminStatus adminStatus) {
+        this.adminStatus = adminStatus;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public void setStats(Stats stats) {
+        this.stats = stats;
+    }
+
+    public List<String> getServices() {
+        return services;
+    }
+
+    public void setServices(List<String> services) {
+        this.services = services;
     }
 
     @Override

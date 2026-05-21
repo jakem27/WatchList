@@ -7,7 +7,9 @@ create table user(
 	username text,
 	password text,
 	favorite_movie text null,
-	favorite_actor text null
+	favorite_actor text null,
+	favorite_genre text null,
+	admin_status text
 );
 
 create table folder(
@@ -64,6 +66,16 @@ create table friendship(
 		references user(id)
 );
 
+create table user_service(
+	user_id int,
+	streaming_service varchar(20),
+	constraint pk_user_service
+		primary key (user_id, streaming_service),
+	constraint fk_user_service_user
+		foreign key (user_id)
+		references user(id)
+);
+
 delimiter //
 create procedure set_known_good_state()
 begin
@@ -80,10 +92,10 @@ begin
 	
     SET FOREIGN_KEY_CHECKS = 1;
 
-	insert into user(id, username, password) values
-	(1, "user1", "password"),
-	(2, "user2", "123"),
-	(3, "user3", "asdf");
+	insert into user(id, username, password, admin_status) values
+	(1, "user1", "password", "NOT_ADMIN"),
+	(2, "user2", "123", "NOT_ADMIN"),
+	(3, "user3", "asdf", "NOT_ADMIN");
 	
 	insert into movie(id, title, year, runtime, director, genre, description, poster_url ) values
 	(1, "movie1", 2001, 90, "director1", "action", "action movie", ""),
@@ -101,8 +113,8 @@ begin
 	(5, "empty", 0, 2, NULL);
 	
 	insert into movie_folder(movie_id, folder_id, watched, liked) values
-	(1, 1, 0, NULL),
-	(2, 1, 0, NULL),
+	(1, 1, 1, NULL),
+	(2, 1, 1, NULL),
 	(3, 2, 0, NULL),
 	(4, 4, 0, NULL),
 	(5, 3, 0, NULL),

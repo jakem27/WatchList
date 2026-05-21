@@ -7,7 +7,9 @@ create table user(
 	username text,
 	password text,
 	favorite_movie text null,
-	favorite_actor text null
+	favorite_actor text null,
+	favorite_genre text null,
+	admin_status text
 );
 
 create table folder(
@@ -63,6 +65,16 @@ create table friendship(
 		references user(id),
 	constraint fk_friendship_user2
 		foreign key (user2_id)
+		references user(id)
+);
+
+create table user_service(
+	user_id int,
+	streaming_service varchar(20),
+	constraint pk_user_service
+		primary key (user_id, streaming_service),
+	constraint fk_user_service_user
+		foreign key (user_id)
 		references user(id)
 );
 
