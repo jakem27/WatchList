@@ -78,6 +78,16 @@ create table user_service(
 		references user(id)
 );
 
+create table movie_service(
+	movie_id int,
+	streaming_service varchar(20),
+	constraint pk_movie_service
+		primary key (movie_id, streaming_service),
+	constraint fk_movie_service_movie
+		foreign key (movie_id)
+		references movie(id)
+);
+
 create index idx_folder_parent_id on folder(parent_id);
 
 select * from folder;
