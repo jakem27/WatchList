@@ -57,4 +57,31 @@ public class ProfileService {
         return result;
     }
 
+    public Result<Void> updateProfile(User user, String username) {
+        Result<Void> result = new Result<>();
+
+        User authUser = userRepository.findByUsername(username);
+        if(authUser == null) {
+            result.addMessage("Invalid user", ResultType.INVALID);
+            return result;
+        }
+
+        if(user == null) {
+            result.addMessage("User required", ResultType.INVALID);
+            return result;
+        }
+
+        if(user.getId() != authUser.getId() || user.getUsername() != authUser.getUsername()) {
+            result.addMessage("Cannot edit someone else's profile", ResultType.INVALID);
+            return result;
+        }
+
+        boolean success = userRepository.update(user);
+        if(!success) {
+            result.addMessage("Failed to update", ResultType.INVALID);
+        }
+
+        return result;
+    }
+
 }
