@@ -83,4 +83,17 @@ public class MovieController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/services/{title}")
+    public ResponseEntity<?> updateServices(@PathVariable("title") String title, @RequestBody List<String> services, Authentication auth) {
+        String username = auth.getName();
+
+        Result<Void> result = movieService.updateServices(title, services, username);
+
+        if(!result.isSuccess()) {
+            return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
