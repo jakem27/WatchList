@@ -22,7 +22,7 @@ public class MovieJdbcClientRepository  implements MovieRepository {
     @Override
     public Movie findByTitle(String title) {
         final String sql = """
-                select id, title, year, runtime, director, genre, poster_url
+                select id, title, year, runtime, director, genre, poster_url, description
                 from movie
                 where title = ?;
                 """;

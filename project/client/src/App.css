@@ -8,3 +8,74 @@
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
     background-color: #f8f9fa;
 }
+
+.box {
+    background-color: #f8f9fa;
+}
+
+.navBar {
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  justify-content: space-between;
+}
+
+header {
+  background: #69d8e5;
+  padding: 1rem 0;
+  border-bottom: 5px solid #000;
+  height: 10vh;
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+
+.logo {
+  float: left;
+  padding: 10px 0;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  margin-left: 70px;
+  padding-top: 16px;
+
+  position: relative;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #000;
+}
+
+nav a::before {
+  content: '';
+  display: block;
+  height: 5px;
+  background-color: #444;
+
+  position: absolute;
+  top: 0;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+  width: 100%;
+}

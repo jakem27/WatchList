@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 function Profile() {
     const [user, setUser] = useState(null);
     const [editingFavorites, setEditingFavorites] = useState(false);
     const [editingServices, setEditingServices] = useState(false);
     const [services, setServices] = useState([]);
+    const navigate = useNavigate();
+     const { setToken } = useContext(UserContext);
 
     useEffect(() => {
         const doFetch = async () => {
@@ -70,10 +74,17 @@ function Profile() {
         <>
         {user !== null && 
         <>
-        <h1>{user.username}</h1>
         <div className="row">
             <div className="col-1"></div>
-            <div className="col-4 border rounded shadow-sm">
+            <div className="col-4">
+                <h1>{user.username}</h1>
+            </div>
+            
+        </div>
+        
+        <div className="row">
+            <div className="col-1"></div>
+            <div className="col-4 border rounded shadow-sm box">
                 <h3 className="mt-3">Info</h3>
                 <ul className="list-unstyled">
                     {editingFavorites ? 
@@ -121,7 +132,7 @@ function Profile() {
 
             <div className="col-2"></div>
 
-            <div className="col-4 border rounded shadow-sm">
+            <div className="col-4 border rounded shadow-sm box">
                 <h3 className="mt-3">Streaming Services</h3>
                 {editingServices ? 
                 <>
@@ -176,6 +187,21 @@ function Profile() {
             </div>
             <div className="col-1"></div>
         </div>
+
+        <div className="row mt-2">
+            <div className="col-1"></div>
+            <div className="col-1">
+                <button id="link" className="btn btn-danger" onClick={() => {
+                    setToken(null);
+                    localStorage.clear("token");
+                    navigate("/")
+                }}>
+                    Logout
+                </button>
+            </div>
+            
+        </div>
+        
         </>
         }
         

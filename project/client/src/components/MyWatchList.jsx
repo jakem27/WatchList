@@ -27,7 +27,7 @@ function MyWatchList() {
 
     return (
         <div className="row h-100 px-3">
-            <div className="col-3 border rounded shadow-sm p-4 d-flex flex-column h-100">
+            <div className="col-3 border rounded shadow-sm p-4 d-flex flex-column h-100 box">
                 <FolderDirectory 
                     currFolder={currFolder} 
                     setCurrFolder={setCurrFolder}
@@ -49,7 +49,7 @@ function MyWatchList() {
 
             <div className="col-1"></div>
 
-            <div className="col-3 border rounded shadow-sm p-4 d-flex flex-column h-100">
+            <div className="col-3 border rounded shadow-sm p-4 d-flex flex-column h-100 box">
                     <div className="flex-grow-1 overflow-hidden">
                         <MovieView 
                             currMovie={currMovie}

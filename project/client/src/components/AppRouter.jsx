@@ -7,6 +7,7 @@ import FriendsPage from "./friends/friendsPage";
 import FolderFeed from "./feed/Feed";
 import FriendWatchList from "./feed/FriendWatchList";
 import Profile from "./users/Profile";
+import Home from "./Home";
 
 function AppRouter() {
 
@@ -17,7 +18,7 @@ function AppRouter() {
             children: [
                 {
                     path: "/",
-                    element: <h2>Welcome to WatchList!</h2>
+                    element: <Home />
                 },
                 {
                     path: "/users/create",

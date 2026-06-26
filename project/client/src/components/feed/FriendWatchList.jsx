@@ -35,7 +35,7 @@ function FriendWatchList() {
 
             <div className="col-2"></div>
 
-            <div className="col-4 border rounded shadow-sm p-4 d-flex flex-column h-100">
+            <div className="col-4 border rounded shadow-sm p-4 d-flex flex-column h-100 box">
                 <div className="flex-grow-1 overflow-hidden">
                     <MovieView currMovie={movie} setCurrMovie={setMovie} userServices={userServices}/>
                 </div>

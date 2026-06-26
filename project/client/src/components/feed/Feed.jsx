@@ -28,38 +28,42 @@ function FolderFeed() {
     }
 
     return (
-        <div className="row">
+        <div className="row h-100">
+            
             <div className="col-3"></div>
 
-            <div className="col-6 d-flex flex-column gap-3 overflow-auto">
+            <div className="col-6 d-flex flex-column gap-3 h-100">
                 <h3>WatchList Feed</h3>
-                {folders.map(folder => (
-                    <div className="card w-100 shadow-sm" key={folder.id} onClick={() => handleClick(folder)}>
-                        <div className="card-header">
-                            <div className="d-flex align-items-center gap-2">
-                                <i className="bi bi-person-circle"></i>
-                                <small>
-                                    {folder.user.username}
-                                </small>
-                            </div>
-                        </div>
-                        <div className="card-body">
-                            <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="d-flex flex-column gap-3 overflow-auto flex-grow-1">
+                    {folders.map(folder => (
+                        <div className="card w-100 shadow-sm movie-card" key={folder.id} onClick={() => handleClick(folder)}>
+                            <div className="card-header">
                                 <div className="d-flex align-items-center gap-2">
-                                    <i className="bi bi-folder"></i>
-                                    <span className="fw-semibold">
-                                        {folder.name}
-                                    </span>
+                                    <i className="bi bi-person-circle"></i>
+                                    <small>
+                                        {folder.user.username}
+                                    </small>
                                 </div>
+                            </div>
+                            <div className="card-body">
+                                <div className="d-flex justify-content-between align-items-center mb-3">
+                                    <div className="d-flex align-items-center gap-2">
+                                        <i className="bi bi-folder"></i>
+                                        <span className="fw-semibold">
+                                            {folder.name}
+                                        </span>
+                                    </div>
 
-                                <div className="d-flex align-items-center gap-2">
-                                    
+                                    <div className="d-flex align-items-center gap-2">
+                                        
+                                    </div>
                                 </div>
+                                
                             </div>
-                            
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                
             </div>
 
             <div className="col-3"></div>
