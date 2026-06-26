@@ -12,3 +12,14 @@ CRUD web application for making and sharing movie watch lists. Made for Dev10 ca
 - When viewing a friends WatchList, user can easily add a movie they see to their own WatchList
 - User can mark a movie as watched, which updates their stats
 - User can view stats about the movies they've watched such as movies per weeek, total minutes, breakdowns by genre
+
+
+### To-Dos
+- make username case sensitive for login/signup
+- automatic logout for expired tokens
+- folder stack not synced with database
+- standardize sql commands for readability
+- complete backend test suit
+- make admin accounts for editing movie availability
+- use spring ai to suggest movies to users
+- improve frontend styling
