@@ -15,7 +15,7 @@ CRUD web application for making and sharing movie watch lists. Made for Dev10 ca
 
 
 ### To-Dos
-- [ ] make username case sensitive for login/signup
+- [x] make username case sensitive for login/signup
 - [ ] automatic logout for expired tokens
 - [ ] folder stack not synced with database
 - [ ] standardize sql commands for readability
