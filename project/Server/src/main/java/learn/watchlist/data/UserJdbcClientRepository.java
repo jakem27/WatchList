@@ -26,7 +26,7 @@ public class UserJdbcClientRepository implements UserRepository {
         final String sql = """
                 select id, username, password, favorite_movie, favorite_actor, favorite_genre, admin_status
                 from user
-                where username = ?;
+                where BINARY username = ?;
                 """;
 
         User user = jdbcClient.sql(sql)
